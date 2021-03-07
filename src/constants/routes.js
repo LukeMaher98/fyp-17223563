@@ -1,0 +1,12 @@
+export const LOGIN = '/login';
+export const ARTIST ='/library'
+export const ARTIST_DISPLAY ='/artist'
+export const PLAYLIST ='/playlist'
+export const GENRE ='/genre'
+export const PROJECT='/project'
+export const LANDING = '/';
+export const HOME = '/home'
+export const SETTINGS = '/settings';
+export const SEARCH = '/search';
+export const PASSWORD_RECOVERY = '/password-recovery';
+export const PASSWORD_RESET = '/password-reset';
