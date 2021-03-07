@@ -79,7 +79,13 @@ const ArtistForm = (props) => {
       data.themeLight = artistThemeLight;
       setArtistData(data);
     }
-  });
+  }, [
+    artistName,
+    artistData,
+    artistBiography,
+    artistThemeDark,
+    artistThemeLight,
+  ]);
 
   const createUserArtist = async () => {
     const artistID =
@@ -165,7 +171,7 @@ const ArtistForm = (props) => {
           .catch((error) => {
             alert("error deleting artist, please try again");
           });
-        props.firebase.firestoreDelete("projects", projectID).catch((error) => {
+        await props.firebase.firestoreDelete("projects", projectID).catch((error) => {
           alert("error deleting artist, please try again");
         });
         await props.AWS.deleteProjectCover(
@@ -189,13 +195,14 @@ const ArtistForm = (props) => {
               alert("error deleting artist, please try again");
             });
           });
+          return null
         });
       }
     );
 
-    props.AWS.deleteArtistImage(url).catch((error) => {});
+    await props.AWS.deleteArtistImage(url).catch((error) => {});
 
-    props.firebase
+    await props.firebase
       .firestoreDelete("artists", props.userArtistIDs[props.currentArtistIndex])
       .catch((error) => {
         alert("error deleting artist, please try again");
@@ -207,9 +214,10 @@ const ArtistForm = (props) => {
       if (artistID !== props.userArtistIDs[props.currentArtistIndex]) {
         updatedArtistIDs = [...updatedArtistIDs, artistID];
       }
+      return null
     });
 
-    props.firebase
+    await props.firebase
       .firestoreSet("users", props.userID, {
         ...props.userData,
         artistIDs: updatedArtistIDs,

@@ -36,8 +36,8 @@ const LoginFormBase = (props) => {
   const [signupPasswordConfirm, setSignupPasswordConfirm] = useState(null);
   const [username, setUsername] = useState(null);
 
-  const emailLogIn = (event) => {
-    props.firebase
+  const emailLogIn = async (event) => {
+    await props.firebase
       .doSignInWithEmailAndPassword(loginEmail, loginPassword)
       .then(() => {
         clearFields();
@@ -48,12 +48,12 @@ const LoginFormBase = (props) => {
     event.preventDefault();
   };
 
-  const emailSignUp = (event) => {
-    props.firebase
+  const emailSignUp = async (event) => {
+    await props.firebase
       .doCreateUserWithEmailAndPassword(signupEmail, signupPassword)
-      .then(() => {
+      .then(async () => {
         clearFields();
-        props.firebase.firestoreAdd(
+        await props.firebase.firestoreAdd(
           "users",
           newUserData(signupEmail, username)
         );
@@ -63,13 +63,13 @@ const LoginFormBase = (props) => {
       });
   };
 
-  const googleSignIn = () => {
-    props.firebase
+  const googleSignIn = async () => {
+    await props.firebase
       .doSignInWithGoogle()
-      .then((res) => {
+      .then(async (res) => {
         clearFields();
         if (res.additionalUserInfo.isNewUser) {
-          props.firebase.firestoreAdd(
+          await props.firebase.firestoreAdd(
             "users",
             newUserData(
               res.additionalUserInfo.profile.email,
@@ -532,7 +532,7 @@ const LoginFormBase = (props) => {
               marginBottom: "2.5vh",
               position: "absolute",
               right: "1.25vw",
-              bottom: "0vh"
+              bottom: "0vh",
             }}
           >
             <Paper

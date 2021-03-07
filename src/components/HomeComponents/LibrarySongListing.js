@@ -23,24 +23,28 @@ const LibrarySongListingBase = (props) => {
   const [url, setUrl] = useState(null);
 
   useEffect(() => {
-    props.firebase
-      .firestoreGetDoc("projects", props.songData.projectID)
-      .then((doc) => {
-        let data = doc.data();
-        setSongProjectData(data);
-        setUrl(
-          data.imageVersion === 0
-            ? props.songData.projectID
-            : `${props.songData.projectID}_${data.imageVersion - 1}`
-        );
-      });
+    const getListingData = async () => {
+      await props.firebase
+        .firestoreGetDoc("projects", props.songData.projectID)
+        .then((doc) => {
+          let data = doc.data();
+          setSongProjectData(data);
+          setUrl(
+            data.imageVersion === 0
+              ? props.songData.projectID
+              : `${props.songData.projectID}_${data.imageVersion - 1}`
+          );
+        });
 
-    props.firebase
-      .firestoreGetDoc("artists", props.songData.artistID)
-      .then((doc) => {
-        let data = doc.data();
-        setSongArtistData(data);
-      });
+      await props.firebase
+        .firestoreGetDoc("artists", props.songData.artistID)
+        .then((doc) => {
+          let data = doc.data();
+          setSongArtistData(data);
+        });
+    };
+
+    getListingData();
   }, []);
 
   const removeSong = async () => {

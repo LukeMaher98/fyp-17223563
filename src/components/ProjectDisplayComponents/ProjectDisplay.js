@@ -119,8 +119,8 @@ const ProjectDisplayBase = (props) => {
 
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
-      props.createdPlaylistIDs.map((playlistID) => {
-        props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
+      props.createdPlaylistIDs.map(async (playlistID) => {
+        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
           let data = doc.data();
           playlistData = [...playlistData, data];
           if (playlistData.length === props.createdPlaylistIDs.length) {

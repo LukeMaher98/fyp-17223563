@@ -33,8 +33,8 @@ const LibraryProjectListingBase = (props) => {
   const playProject = () => {
     props.setCurrentSongIndex(null);
     let songData = [];
-    props.bookmarkedProjectData[props.index].songIDs.map((songID) => {
-      props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+    props.bookmarkedProjectData[props.index].songIDs.map(async (songID) => {
+      await props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
         let data = doc.data();
         songData = [...songData, data];
         if (
@@ -53,8 +53,8 @@ const LibraryProjectListingBase = (props) => {
 
   const queueProject = () => {
     let songData = [];
-    props.bookmarkedProjectData[props.index].songIDs.map((songID) => {
-      props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+    props.bookmarkedProjectData[props.index].songIDs.map(async (songID) => {
+      await props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
         let data = doc.data();
         songData = [...songData, data];
         if (

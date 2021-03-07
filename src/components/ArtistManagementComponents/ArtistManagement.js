@@ -26,8 +26,8 @@ function ArtistManagementBase(props) {
 
     if (!props.userArtistData && props.userArtistIDs) {
       let artistData = [];
-      props.userArtistIDs.map((artistID) => {
-        props.firebase.firestoreGetDoc("artists", artistID).then((doc) => {
+      props.userArtistIDs.map(async (artistID) => {
+        await props.firebase.firestoreGetDoc("artists", artistID).then((doc) => {
           let data = doc.data();
           artistData = [...artistData, data];
           if (artistData.length === props.userArtistIDs.length) {
@@ -52,8 +52,8 @@ function ArtistManagementBase(props) {
 
     if (!props.artistProjectData && props.artistProjectIDs) {
       let projectData = [];
-      props.artistProjectIDs.map((projectID) => {
-        props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
+      props.artistProjectIDs.map(async (projectID) => {
+        await props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
           let data = doc.data();
           projectData = [...projectData, data];
           if (projectData.length === props.artistProjectIDs.length) {
@@ -78,8 +78,8 @@ function ArtistManagementBase(props) {
 
     if (!props.projectSongData && props.projectSongIDs) {
       let songData = [];
-      props.projectSongIDs.map((songID) => {
-        props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+      props.projectSongIDs.map(async (songID) => {
+        await props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
           let data = doc.data();
           songData = [...songData, data];
           if (songData.length === props.projectSongIDs.length) {

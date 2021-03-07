@@ -36,21 +36,6 @@ const GenreDisplayPanelBase = (props) => {
   const [currentContentTimeframe, setCurrentContentTimeframe] = useState(0);
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
 
-  const getContentFilter = () => {
-    switch (true) {
-      case currentContentFilter === 0:
-        return "playCount";
-      case currentContentFilter === 1:
-        return "likeCount";
-      case currentContentFilter === 2:
-        return "bookmarkCount";
-      case currentContentFilter === 3:
-        return "followCount";
-      default:
-        return null;
-    }
-  };
-
   const playSong = (index) => {
     props.setCurrentSongIndex(null);
     let playerSongIDs = [];
@@ -58,6 +43,7 @@ const GenreDisplayPanelBase = (props) => {
     displayData.map((couple) => {
       playerSongIDs = [...playerSongIDs, couple.songID];
       playerSongData = [...playerSongData, couple.songData];
+      return true;
     });
     props.setPlayerSongIDs([...playerSongIDs]);
     props.setPlayerSongData([...playerSongData]);
@@ -69,6 +55,21 @@ const GenreDisplayPanelBase = (props) => {
     : contentIcons[0];
 
   useEffect(() => {
+    const getContentFilter = () => {
+      switch (true) {
+        case currentContentFilter === 0:
+          return "playCount";
+        case currentContentFilter === 1:
+          return "likeCount";
+        case currentContentFilter === 2:
+          return "bookmarkCount";
+        case currentContentFilter === 3:
+          return "followCount";
+        default:
+          return null;
+      }
+    };
+
     if (currentContentIndex !== props.contentIndex) {
       setCurrentContentIndex(props.contentIndex);
       props.setContentTimeframe(0);
@@ -121,7 +122,13 @@ const GenreDisplayPanelBase = (props) => {
         });
       }
     }
-  });
+  }, [
+    currentContentIndex,
+    props,
+    currentContentFilter,
+    currentContentTimeframe,
+    displayData,
+  ]);
 
   return (
     <Accordion

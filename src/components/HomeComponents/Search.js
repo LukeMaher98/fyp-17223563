@@ -95,6 +95,7 @@ const SearchBase = (props) => {
                 searchedProjectData = [data, ...searchedProjectData];
                 searchedProjectIDs = [id, ...searchedProjectIDs];
               }
+              return true
             });
           });
         });
@@ -119,6 +120,7 @@ const SearchBase = (props) => {
               searchedArtistData = [data, ...searchedArtistData];
               searchedArtistIDs = [id, ...searchedArtistIDs];
             }
+            return null
           });
         });
       });
@@ -144,6 +146,7 @@ const SearchBase = (props) => {
               searchedSongData = [data, ...searchedSongData];
               searchedSongIDs = [id, ...searchedSongIDs];
             }
+            return null
           });
         });
       });
@@ -170,6 +173,7 @@ const SearchBase = (props) => {
                 searchedPlaylistData = [data, ...searchedPlaylistData];
                 searchedPlaylistIDs = [id, ...searchedPlaylistIDs];
               }
+              return null
             });
           });
         })
@@ -227,7 +231,7 @@ const SearchBase = (props) => {
       setDisplayIDs(props.searchPlaylistIDs);
       setDisplayData(props.searchPlaylistData);
     }
-  });
+  }, [props, displayData]);
 
   return (
     <Grid container direction="column" wrap="nowrap">

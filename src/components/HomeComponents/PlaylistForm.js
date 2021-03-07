@@ -89,7 +89,13 @@ const PlaylistForm = (props) => {
       data.themeLight = playlistThemeLight;
       setPlaylistData(data);
     }
-  });
+  }, [
+    playlistName,
+    playlistData,
+    playlistDesc,
+    playlistThemeDark,
+    playlistThemeLight,
+  ]);
 
   let disabled = !playlistName || !playlistDesc;
 
@@ -138,15 +144,15 @@ const PlaylistForm = (props) => {
     } else {
       await props.firebase
         .firestoreAdd("playlists", playlistData)
-        .then((doc) => {
+        .then(async (doc) => {
           let playlistID = doc.id;
-          props.firebase
+          await props.firebase
             .firestoreAddUserPlaylistID(props.userID, playlistID)
             .catch((error) => {
               alert("error creating playlist, please try again");
             });
           if (playlistImageFile) {
-            props.AWS.uploadPlaylistImage(playlistImageFile, playlistID).catch(
+            await props.AWS.uploadPlaylistImage(playlistImageFile, playlistID).catch(
               (error) => {
                 alert("error creating playlist, please try again");
               }
@@ -182,6 +188,7 @@ const PlaylistForm = (props) => {
       if (playlistID !== props.createdPlaylistIDs[props.currentPlaylistIndex]) {
         updatedPlaylistIDs = [...updatedPlaylistIDs, playlistID];
       }
+      return null;
     });
 
     await props.firebase

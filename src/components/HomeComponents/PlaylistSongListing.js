@@ -22,17 +22,21 @@ const PlaylistSongListingBase = (props) => {
   const [url, setUrl] = useState(null);
 
   useEffect(() => {
-    props.firebase
-      .firestoreGetDoc("projects", props.songData.projectID)
-      .then((doc) => {
-        let data = doc.data();
-        setSongProjectData(data);
-        setUrl(
-          data.imageVersion === 0
-            ? props.songData.projectID
-            : `${props.songData.projectID}_${data.imageVersion - 1}`
-        );
-      });
+    const getListingData = async () => {
+      await props.firebase
+        .firestoreGetDoc("projects", props.songData.projectID)
+        .then((doc) => {
+          let data = doc.data();
+          setSongProjectData(data);
+          setUrl(
+            data.imageVersion === 0
+              ? props.songData.projectID
+              : `${props.songData.projectID}_${data.imageVersion - 1}`
+          );
+        });
+    };
+
+    getListingData();
   }, []);
 
   const removeSong = async () => {

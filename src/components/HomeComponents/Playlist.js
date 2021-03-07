@@ -22,8 +22,8 @@ const PlaylistBase = (props) => {
 
     if (props.currentPlaylistSongIDs && !props.currentPlaylistSongData) {
       let songData = [];
-      props.currentPlaylistSongIDs.map((songID) => {
-        props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+      props.currentPlaylistSongIDs.map(async (songID) => {
+        await props.firebase.firestoreGetDoc("songs", songID).then(async (doc) => {
           let data = doc.data();
           if (!data) {
             let updatedSongIDs = [];
@@ -36,7 +36,7 @@ const PlaylistBase = (props) => {
             updatedPlaylistData[
               props.currentPlaylistIndex
             ].songIDs = updatedSongIDs;
-            props.firebase.firestoreSet(
+            await props.firebase.firestoreSet(
               "playlists",
               props.createdPlaylistIDs[props.currentPlaylistIndex],
               updatedPlaylistData

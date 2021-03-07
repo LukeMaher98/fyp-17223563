@@ -12,7 +12,7 @@ import LibraryPlaylistListing from "./LibraryPlaylistListing";
 import { useStyles } from "../../constants/styling";
 
 const UserLibraryBase = (props) => {
-const styles = useStyles()
+  const styles = useStyles();
 
   return (
     <Grid container style={{ width: "100%", height: "100%" }}>
@@ -27,7 +27,8 @@ const styles = useStyles()
           style={{
             width: "5vw",
             borderRadius: "0px",
-            backgroundImage: "linear-gradient(to right, blueviolet, mediumvioletred)",
+            backgroundImage:
+              "linear-gradient(to right, blueviolet, mediumvioletred)",
           }}
           elevation={3}
         >
@@ -63,7 +64,7 @@ const styles = useStyles()
         style={{
           marginLeft: "1.25vw",
           height: "62.5vh",
-          width: "68.75vw"
+          width: "68.75vw",
         }}
       >
         <Paper
@@ -116,6 +117,7 @@ const styles = useStyles()
                       />
                     </Grid>
                   );
+                return null;
               })}
             {props.libraryState === 1 &&
               props.bookmarkedProjectData &&
@@ -144,6 +146,7 @@ const styles = useStyles()
                       />
                     </Grid>
                   );
+                return null;
               })}
             {props.libraryState === 2 &&
               props.followedArtistData &&
@@ -169,6 +172,7 @@ const styles = useStyles()
                       />
                     </Grid>
                   );
+                return null;
               })}
             {props.libraryState === 3 &&
               props.savedPlaylistData &&
@@ -195,6 +199,7 @@ const styles = useStyles()
                       />
                     </Grid>
                   );
+                return null;
               })}
           </Grid>
         </Paper>
