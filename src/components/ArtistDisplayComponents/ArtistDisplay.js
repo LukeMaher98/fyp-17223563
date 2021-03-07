@@ -105,10 +105,10 @@ const ArtistDisplayBase = (props) => {
       props.setCurrentArtistProjectIDs(null);
     }
 
-    if (artistData && !props.currentArtistTopTrackIDs) {
+    const getArtistTopTrackIDs = async () => {
       let songData = [];
       let songIDs = [];
-      props.firebase
+      await props.firebase
         .firestoreLimitedGet(
           "songs",
           ["likeCount", "desc"],
@@ -125,9 +125,13 @@ const ArtistDisplayBase = (props) => {
           });
         })
         .then(() => {
-          props.setCurrentArtistTrackData(songData);
           props.setCurrentArtistTrackIDs(songIDs);
+          props.setCurrentArtistTrackData(songData);
         });
+    };
+
+    if (artistData && !props.currentArtistTopTrackIDs) {
+      getArtistTopTrackIDs();
     }
 
     if (props.currentArtistTopTrackIDs && !artistTopTrackIDs) {
@@ -181,8 +185,8 @@ const ArtistDisplayBase = (props) => {
 
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
-      props.createdPlaylistIDs.map((playlistID) => {
-        props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
+      props.createdPlaylistIDs.map(async (playlistID) => {
+        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
           let data = doc.data();
           playlistData = [...playlistData, data];
           if (playlistData.length === props.createdPlaylistIDs.length) {
@@ -709,10 +713,7 @@ const ArtistDisplayBase = (props) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <Grid item>
-                          <Typography
-                            variant="h6"
-                            style={{ color: "white" }}
-                          >
+                          <Typography variant="h6" style={{ color: "white" }}>
                             <NumericLabel
                               params={{
                                 shortFormat: true,
@@ -790,10 +791,7 @@ const ArtistDisplayBase = (props) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <Grid item>
-                          <Typography
-                            variant="h6"
-                            style={{ color: "white" }}
-                          >
+                          <Typography variant="h6" style={{ color: "white" }}>
                             <NumericLabel
                               params={{
                                 shortFormat: true,
@@ -901,10 +899,7 @@ const ArtistDisplayBase = (props) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <Grid item>
-                          <Typography
-                            variant="h6"
-                            style={{ color: "white" }}
-                          >
+                          <Typography variant="h6" style={{ color: "white" }}>
                             <NumericLabel
                               params={{
                                 shortFormat: true,
@@ -982,10 +977,7 @@ const ArtistDisplayBase = (props) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <Grid item>
-                          <Typography
-                            variant="h6"
-                            style={{ color: "white" }}
-                          >
+                          <Typography variant="h6" style={{ color: "white" }}>
                             <NumericLabel
                               params={{
                                 shortFormat: true,

@@ -26,8 +26,8 @@ const LibraryPlaylistListingBase = (props) => {
   const playPlaylist = () => {
     props.setCurrentSongIndex(null);
     let songData = [];
-    props.playlistData.songIDs.map((songID) => {
-      props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+    props.playlistData.songIDs.map(async (songID) => {
+      await props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
         let data = doc.data();
         songData = [...songData, data];
         if (songData.length === props.playlistData.songIDs.length) {
@@ -41,8 +41,8 @@ const LibraryPlaylistListingBase = (props) => {
 
   const queuePlaylist = () => {
     let songData = [];
-    props.playlistData.songIDs.map((songID) => {
-      props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+    props.playlistData.songIDs.map(async (songID) => {
+      await props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
         let data = doc.data();
         songData = [...songData, data];
         if (songData.length === props.playlistData.songIDs.length) {

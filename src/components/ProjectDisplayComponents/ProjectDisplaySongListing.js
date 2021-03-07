@@ -16,7 +16,7 @@ import SimpleIconButton from "../MiscComponents/SimpleIconButton";
 import { useStyles } from "../../constants/styling";
 
 const ProjectDisplaySongListingBase = (props) => {
-  const styles = useStyles()
+  const styles = useStyles();
 
   const [url, setUrl] = useState(null);
   const [projectData, setProjectData] = useState(null);
@@ -28,22 +28,26 @@ const ProjectDisplaySongListingBase = (props) => {
   }${Math.ceil(props.songData.duration % 60)}`;
 
   useEffect(() => {
-    if (!url) {
-      props.firebase
+    const getListingData = async () => {
+      await props.firebase
         .firestoreGetDoc("projects", props.songData.projectID)
         .then((doc) => {
           let data = doc.data();
-          setProjectData(data)
+          setProjectData(data);
           setUrl(
             data.imageVersion === 0
               ? props.songData.projectID
               : `${props.songData.projectID}_${data.imageVersion - 1}`
           );
         });
+    };
+
+    if (!url) {
+      getListingData();
     }
   });
 
-  const addToPlaylist = (index) => {
+  const addToPlaylist = async (index) => {
     let updatedPlaylistData = props.createdPlaylistData;
     let playlistData = getPlaylistsToAddTo().data[index];
     let playlistID = getPlaylistsToAddTo().IDs[index];
@@ -62,7 +66,7 @@ const ProjectDisplaySongListingBase = (props) => {
       }
     });
 
-    props.firebase
+    await props.firebase
       .firestoreSet("playlists", playlistID, playlistData)
       .catch((error) => {
         alert("An error occured");
@@ -112,7 +116,9 @@ const ProjectDisplaySongListingBase = (props) => {
           height: "100%",
           width: "100%",
           borderRadius: "0px",
-          backgroundImage: `linear-gradient(to right, ${projectData && projectData.themeLight}, ${projectData && projectData.themeDark})`,
+          backgroundImage: `linear-gradient(to right, ${
+            projectData && projectData.themeLight
+          }, ${projectData && projectData.themeDark})`,
         }}
       >
         <Grid
@@ -140,7 +146,12 @@ const ProjectDisplaySongListingBase = (props) => {
               <MusicNote style={{ color: "white" }} />
             </Tooltip>
           </Grid>
-          <Grid item xs style={{ overflow: "auto" }} className={styles.scrollbars}> 
+          <Grid
+            item
+            xs
+            style={{ overflow: "auto" }}
+            className={styles.scrollbars}
+          >
             <Typography
               variant="subtitle1"
               style={{
@@ -266,7 +277,14 @@ const ProjectDisplaySongListingBase = (props) => {
                       paddingRight: "1.25vw",
                     }}
                   >
-                    <Grid item style={{ height: "100%", width: "5vh", marginRight: "1.25vw" }}>
+                    <Grid
+                      item
+                      style={{
+                        height: "100%",
+                        width: "5vh",
+                        marginRight: "1.25vw",
+                      }}
+                    >
                       <Paper
                         style={{
                           borderRadius: "0px",

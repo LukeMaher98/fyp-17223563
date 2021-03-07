@@ -47,21 +47,21 @@ function AppBase(props) {
 
   useEffect(() => {
     props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser !== null) {;
+      if (authUser !== null) {
         props.setUserAuth(authUser);
       } else {
         props.setUserAuth(false);
         props.setUserID(null);
-        props.setUserData(null)
+        props.setUserData(null);
         props.setUserArtistIDs(null);
         props.setUserArtistData(null);
         props.setArtistProjectIDs(null);
         props.setArtistProjectData(null);
         props.setProjectSongIDs(null);
         props.setProjectSongData(null);
-        props.setCurrentProjectIndex(null)
-        props.setCurrentArtistIndex(null)
-        props.setCurrentPlaylistIndex(null)
+        props.setCurrentProjectIndex(null);
+        props.setCurrentArtistIndex(null);
+        props.setCurrentPlaylistIndex(null);
         props.setCreatedPlaylistIDs(null);
         props.setCreatedPlaylistData(null);
         props.setCurrentPlaylistSongIDs(null);
@@ -79,8 +79,8 @@ function AppBase(props) {
       }
     });
 
-    if (props.currentUser && (!props.userData || !props.userID)) {
-      props.firebase
+    const getUserInfo = async () => {
+      await props.firebase
         .firestoreGet1("users", "email", props.currentUser.email)
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -90,6 +90,10 @@ function AppBase(props) {
             props.setUserData(data);
           });
         });
+    };
+
+    if (props.currentUser && (!props.userData || !props.userID)) {
+      getUserInfo();
     }
   });
 

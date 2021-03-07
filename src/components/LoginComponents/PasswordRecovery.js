@@ -7,29 +7,22 @@ import { compose } from "recompose";
 import { pushHistory } from "../../constants/utils";
 import FormTextfield from "../FormComponents/FormTextfield";
 import { AlternateEmail, Send } from "@material-ui/icons";
-import { artistFormTheme } from "../../constants/themes";
 import TextIconButton from "../MiscComponents/TextIconButton";
 
 const RecoverPasswordBase = (props) => {
   const [email, setEmail] = useState("");
 
-  const submit = (event) => {
-    const userEmail = email;
-
-    if (userEmail !== "") {
-      props.firebase
-        .doPasswordReset(userEmail)
-        .then((authUser) => {
-          setEmail("");
-          alert("Please check your email");
-          pushHistory(routes.LOGIN);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    } else {
-      alert("All fields must be filled out");
-    }
+  const submit = async (event) => {
+    await props.firebase
+      .doPasswordReset(email)
+      .then((authUser) => {
+        setEmail("");
+        alert("Please check your email");
+        pushHistory(routes.LOGIN);
+      })
+      .catch((error) => {
+        alert(error);
+      });
     event.preventDefault();
   };
 
@@ -108,7 +101,9 @@ const RecoverPasswordBase = (props) => {
                     onClick={(event) => submit(event)}
                     stretch
                     disabled={!email}
-                    tooltip={"Submit your email address. You will receive a password reset link in your inbox"}
+                    tooltip={
+                      "Submit your email address. You will receive a password reset link in your inbox"
+                    }
                   />
                 </Grid>
               </Grid>

@@ -15,9 +15,9 @@ const ResetPasswordBase = (props) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const submit = (event) => {
-    props.firebase.doVerifyPasswordResetCode(props.resetKey).then(() => {
-      props.firebase
+  const submit = async (event) => {
+    await props.firebase.doVerifyPasswordResetCode(props.resetKey).then(async () => {
+      await props.firebase
         .doConfirmPasswordReset(props.resetKey, newPassword)
         .then(() => {
           alert("Password Successfully Reset");

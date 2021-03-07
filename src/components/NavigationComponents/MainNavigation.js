@@ -87,8 +87,8 @@ const MainNavigation = (props) => {
     pushHistory(route, href);
   };
 
-  const signOut = (event) => {
-    props.firebase.doSignOut().catch((error) => {
+  const signOut = async (event) => {
+    await props.firebase.doSignOut().catch((error) => {
       alert(error);
     });
   };

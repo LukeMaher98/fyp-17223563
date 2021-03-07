@@ -67,7 +67,7 @@ const HomeBase = (props) => {
       props.followedArtistIDs.map(async (artistID) => {
         await props.firebase
           .firestoreGetDoc("artists", artistID)
-          .then((doc) => {
+          .then(async (doc) => {
             let data = doc.data();
             if (!data) {
               let updatedArtistIDs = [];
@@ -79,7 +79,7 @@ const HomeBase = (props) => {
               });
               let updatedUserData = props.userData;
               updatedUserData.followedArtistIDs = updatedArtistIDs;
-              props.firebase.firestoreSet(
+              await props.firebase.firestoreSet(
                 "users",
                 props.userID,
                 updatedUserData
@@ -101,8 +101,8 @@ const HomeBase = (props) => {
 
     if (!props.followedArtistProjectData && props.followedArtistProjectIDs) {
       let projectData = [];
-      props.followedArtistProjectIDs.map((projectID) => {
-        props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
+      props.followedArtistProjectIDs.map(async (projectID) => {
+        await props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
           let data = doc.data();
           if (data.debutDate.seconds * 1000 < new Date().getTime()) {
             projectData = [...projectData, data];
@@ -140,8 +140,8 @@ const HomeBase = (props) => {
 
     if (!props.bookmarkedProjectData && props.bookmarkedProjectIDs) {
       let projectData = [];
-      props.bookmarkedProjectIDs.map((projectID) => {
-        props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
+      props.bookmarkedProjectIDs.map(async (projectID) => {
+        await props.firebase.firestoreGetDoc("projects", projectID).then(async (doc) => {
           let data = doc.data();
           if (!data) {
             let updatedProjectIDs = [];
@@ -153,7 +153,7 @@ const HomeBase = (props) => {
             });
             let updatedUserData = props.userData;
             updatedUserData.bookmarkedProjectIDs = updatedProjectIDs;
-            props.firebase.firestoreSet("users", props.userID, updatedUserData);
+            await props.firebase.firestoreSet("users", props.userID, updatedUserData);
             props.setUserData(updatedUserData);
             props.setBookmarkedProjectIDs(updatedProjectIDs);
           } else {
@@ -169,8 +169,8 @@ const HomeBase = (props) => {
 
     if (!props.likedSongData && props.likedSongIDs) {
       let songData = [];
-      props.likedSongIDs.map((songID) => {
-        props.firebase.firestoreGetDoc("songs", songID).then((doc) => {
+      props.likedSongIDs.map(async (songID) => {
+        await props.firebase.firestoreGetDoc("songs", songID).then(async (doc) => {
           let data = doc.data();
           if (!data) {
             let updatedSongIDs = [];
@@ -182,7 +182,7 @@ const HomeBase = (props) => {
             });
             let updatedUserData = props.userData;
             updatedUserData.likedSongIDs = updatedSongIDs;
-            props.firebase.firestoreSet("users", props.userID, updatedUserData);
+            await props.firebase.firestoreSet("users", props.userID, updatedUserData);
             props.setUserData(updatedUserData);
             props.setLikedSongIDs(updatedSongIDs);
           } else {
@@ -198,8 +198,8 @@ const HomeBase = (props) => {
 
     if (!props.savedPlaylistData && props.savedPlaylistIDs) {
       let playlistData = [];
-      props.savedPlaylistIDs.map((playlistID) => {
-        props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
+      props.savedPlaylistIDs.map(async (playlistID) => {
+        await props.firebase.firestoreGetDoc("playlists", playlistID).then(async (doc) => {
           let data = doc.data();
           if (!data) {
             let updatedPlaylistIDs = [];
@@ -211,7 +211,7 @@ const HomeBase = (props) => {
             });
             let updatedUserData = props.userData;
             updatedUserData.savedPlaylistIDs = updatedPlaylistIDs;
-            props.firebase.firestoreSet("users", props.userID, updatedUserData);
+            await props.firebase.firestoreSet("users", props.userID, updatedUserData);
             props.setUserData(updatedUserData);
             props.setSavedPlaylistIDs(updatedPlaylistIDs);
           } else {
@@ -227,8 +227,8 @@ const HomeBase = (props) => {
 
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
-      props.createdPlaylistIDs.map((playlistID) => {
-        props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
+      props.createdPlaylistIDs.map(async (playlistID) => {
+        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
           let data = doc.data();
           playlistData = [...playlistData, data];
           if (playlistData.length === props.createdPlaylistIDs.length) {
