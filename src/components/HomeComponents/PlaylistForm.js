@@ -89,7 +89,13 @@ const PlaylistForm = (props) => {
       data.themeLight = playlistThemeLight;
       setPlaylistData(data);
     }
-  });
+  }, [
+    playlistName,
+    playlistData,
+    playlistDesc,
+    playlistThemeDark,
+    playlistThemeLight,
+  ]);
 
   let disabled = !playlistName || !playlistDesc;
 
@@ -182,6 +188,7 @@ const PlaylistForm = (props) => {
       if (playlistID !== props.createdPlaylistIDs[props.currentPlaylistIndex]) {
         updatedPlaylistIDs = [...updatedPlaylistIDs, playlistID];
       }
+      return null;
     });
 
     await props.firebase

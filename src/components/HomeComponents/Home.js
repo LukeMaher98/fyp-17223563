@@ -64,30 +64,38 @@ const HomeBase = (props) => {
     ) {
       let artistData = [];
       let projectIDs = [];
-      props.followedArtistIDs.map((artistID) => {
-        props.firebase.firestoreGetDoc("artists", artistID).then((doc) => {
-          let data = doc.data();
-          if (!data) {
-            let updatedArtistIDs = [];
-            props.followedArtistIDs.map((id) => {
-              if (id !== artistID) {
-                updatedArtistIDs = [...updatedArtistIDs, id];
+      props.followedArtistIDs.map(async (artistID) => {
+        await props.firebase
+          .firestoreGetDoc("artists", artistID)
+          .then((doc) => {
+            let data = doc.data();
+            if (!data) {
+              let updatedArtistIDs = [];
+              props.followedArtistIDs.map((id) => {
+                if (id !== artistID) {
+                  updatedArtistIDs = [...updatedArtistIDs, id];
+                }
+                return true;
+              });
+              let updatedUserData = props.userData;
+              updatedUserData.followedArtistIDs = updatedArtistIDs;
+              props.firebase.firestoreSet(
+                "users",
+                props.userID,
+                updatedUserData
+              );
+              props.setUserData(updatedUserData);
+              props.setFollowedArtistIDs(updatedArtistIDs);
+            } else {
+              artistData = [...artistData, data];
+              projectIDs = [...projectIDs, ...data.projectIDs];
+              if (artistData.length === props.followedArtistIDs.length) {
+                props.setFollowedArtistData(artistData);
+                props.setFollowedArtistProjectIDs(projectIDs);
               }
-            });
-            let updatedUserData = props.userData;
-            updatedUserData.followedArtistIDs = updatedArtistIDs;
-            props.firebase.firestoreSet("users", props.userID, updatedUserData);
-            props.setUserData(updatedUserData);
-            props.setFollowedArtistIDs(updatedArtistIDs);
-          } else {
-            artistData = [...artistData, data];
-            projectIDs = [...projectIDs, ...data.projectIDs];
-            if (artistData.length === props.followedArtistIDs.length) {
-              props.setFollowedArtistData(artistData);
-              props.setFollowedArtistProjectIDs(projectIDs);
             }
-          }
-        });
+            return;
+          });
       });
     }
 
@@ -110,6 +118,7 @@ const HomeBase = (props) => {
                   { data: data, id: props.followedArtistProjectIDs[index] },
                 ];
               }
+              return null;
             });
             sortedCouples = sortedCouples.sort((a, b) =>
               compare(a.data, b.data, "debutDate")
@@ -119,11 +128,13 @@ const HomeBase = (props) => {
             sortedCouples.map((couple) => {
               sortedIDs = [couple.id, ...sortedIDs];
               sortedData = [couple.data, ...sortedData];
+              return null;
             });
             props.setFollowedArtistProjectData(sortedData);
             props.setFollowedArtistProjectIDs(sortedIDs);
           }
         });
+        return null;
       });
     }
 
@@ -138,6 +149,7 @@ const HomeBase = (props) => {
               if (id !== projectID) {
                 updatedProjectIDs = [...updatedProjectIDs, id];
               }
+              return null;
             });
             let updatedUserData = props.userData;
             updatedUserData.bookmarkedProjectIDs = updatedProjectIDs;
@@ -151,6 +163,7 @@ const HomeBase = (props) => {
             }
           }
         });
+        return null;
       });
     }
 
@@ -165,6 +178,7 @@ const HomeBase = (props) => {
               if (id !== songID) {
                 updatedSongIDs = [...updatedSongIDs, id];
               }
+              return null;
             });
             let updatedUserData = props.userData;
             updatedUserData.likedSongIDs = updatedSongIDs;
@@ -178,6 +192,7 @@ const HomeBase = (props) => {
             }
           }
         });
+        return null;
       });
     }
 
@@ -192,6 +207,7 @@ const HomeBase = (props) => {
               if (id !== playlistID) {
                 updatedPlaylistIDs = [...updatedPlaylistIDs, id];
               }
+              return null;
             });
             let updatedUserData = props.userData;
             updatedUserData.savedPlaylistIDs = updatedPlaylistIDs;
@@ -205,6 +221,7 @@ const HomeBase = (props) => {
             }
           }
         });
+        return null;
       });
     }
 
@@ -218,6 +235,7 @@ const HomeBase = (props) => {
             props.setCreatedPlaylistData(playlistData);
           }
         });
+        return null;
       });
     }
 
@@ -251,6 +269,7 @@ const HomeBase = (props) => {
             if (projectID !== bookmarkedProjectID) {
               bookmarkedProjectIDs = [...bookmarkedProjectIDs, projectID];
             }
+            return null;
           });
           user.bookmarkedProjectIDs = bookmarkedProjectIDs;
           artist.bookmarkCount--;
@@ -385,7 +404,8 @@ const HomeBase = (props) => {
                         />
                       </Grid>
                     );
-                })}{" "}
+                  return null;
+                })}
             </Grid>
           </Paper>
         </Grid>

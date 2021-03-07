@@ -79,7 +79,13 @@ const ArtistForm = (props) => {
       data.themeLight = artistThemeLight;
       setArtistData(data);
     }
-  });
+  }, [
+    artistName,
+    artistData,
+    artistBiography,
+    artistThemeDark,
+    artistThemeLight,
+  ]);
 
   const createUserArtist = async () => {
     const artistID =
@@ -189,6 +195,7 @@ const ArtistForm = (props) => {
               alert("error deleting artist, please try again");
             });
           });
+          return null
         });
       }
     );
@@ -207,6 +214,7 @@ const ArtistForm = (props) => {
       if (artistID !== props.userArtistIDs[props.currentArtistIndex]) {
         updatedArtistIDs = [...updatedArtistIDs, artistID];
       }
+      return null
     });
 
     props.firebase

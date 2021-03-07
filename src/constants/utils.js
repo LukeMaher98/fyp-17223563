@@ -99,11 +99,11 @@ export const customDateFormat = function (date, formatString) {
   th =
     D >= 10 && D <= 20
       ? "th"
-      : (dMod = D % 10) == 1
+      : (dMod = D % 10) === 1
       ? "st"
-      : dMod == 2
+      : dMod === 2
       ? "nd"
-      : dMod == 3
+      : dMod === 3
       ? "rd"
       : "th";
   formatString = formatString
@@ -119,7 +119,7 @@ export const customDateFormat = function (date, formatString) {
     .replace("#D#", D)
     .replace("#th#", th);
   h = hhh = date.getHours();
-  if (h == 0) h = 24;
+  if (h === 0) h = 24;
   if (h > 12) h -= 12;
   hh = h < 10 ? "0" + h : h;
   hhhh = hhh < 10 ? "0" + hhh : hhh;
