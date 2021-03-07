@@ -519,7 +519,7 @@ const ProjectForm = (props) => {
             props.userArtistIDs[props.currentArtistIndex],
             projectID
           ).catch((error) => {
-            alert("error creating artist, please try again");
+            alert("error creating project, please try again");
           });
 
           if (songsToUpload > 0) {

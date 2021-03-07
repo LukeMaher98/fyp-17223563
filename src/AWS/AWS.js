@@ -2,8 +2,8 @@ import aws_sdk from "aws-sdk";
 import { setUploadProgress } from "../actions/ArtistManagementActions";
 
 const config = {
-  accessKeyId: "AKIAITABKDOFGRUGNGMA",
-  secretAccessKey: "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",
+  accessKeyId: null,
+  secretAccessKey: null,
   apiVersion: "2006-03-01",
 };
 
