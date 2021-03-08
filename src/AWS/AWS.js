@@ -1,5 +1,4 @@
 import aws_sdk from "aws-sdk";
-import { setUploadProgress } from "../actions/ArtistManagementActions";
 
 const config = {
   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
@@ -11,40 +10,18 @@ class AWS {
   constructor() {
     aws_sdk.config.update({
       region: "eu-west-1",
-      httpOptions: {
-        timeout: 100000000000000000000000000000000000000000000000,
-        connectTimeout: 100000000000000000000000000000000000000000000000,
-      },
     });
     this.s3 = new aws_sdk.S3({ ...config });
   }
 
   // *** AWS API ***
 
-  uploadFile = (data, projectID, songID, type, artistID) => {
-    const params = {
-      Bucket: "debut-image-files",
-      Key: `${artistID}/${projectID}/${songID}/${type}`,
-      ACL: "public-read",
-      Body: data,
-    };
-
-    this.s3.putObject(params, function (err, data) {
-      if (err) {
-        alert("File failed to upload");
-        throw err;
-      } else {
-        alert("File uploaded successfully");
-      }
-    });
-  };
-
   uploadProjectCover = (data, artistID, projectID) =>
     this.s3
       .putObject({
         Bucket: "debut-image-files",
         Key: `projectCovers/${artistID}/${projectID}`,
-        ACL: "public-read",
+        ACL: "public-read-write",
         Body: data,
       })
       .promise();
@@ -62,11 +39,8 @@ class AWS {
       .putObject({
         Bucket: "debut-audio-files",
         Key: `artistSongs/${artistID}/${projectID}/${songID}`,
-        ACL: "public-read",
+        ACL: "public-read-write",
         Body: data,
-      })
-      .on("httpUploadProgress", ({ loaded, total }) => {
-        setUploadProgress(Math.round((100 * loaded) / total));
       })
       .promise();
 
@@ -83,7 +57,7 @@ class AWS {
       .putObject({
         Bucket: "debut-image-files",
         Key: `artistImages/${artistID}`,
-        ACL: "public-read",
+        ACL: "public-read-write",
         Body: data,
       })
       .promise();
@@ -101,7 +75,7 @@ class AWS {
       .putObject({
         Bucket: "debut-image-files",
         Key: `playlistImages/${playlistID}`,
-        ACL: "public-read",
+        ACL: "public-read-write",
         Body: data,
       })
       .promise();
