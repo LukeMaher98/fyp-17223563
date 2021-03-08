@@ -108,12 +108,12 @@ const PlaylistForm = (props) => {
       await props.firebase
         .firestoreSet("playlists", playlistID, playlistData)
         .catch((error) => {
-          alert("error creating playlist, please try again");
+          alert(error);
         });
 
       if (playlistImageFile) {
         await props.AWS.deletePlaylistImage(url).catch((error) => {
-          alert("error creating playlist, please try again");
+          alert(error);
         });
 
         await props.firebase
@@ -130,11 +130,11 @@ const PlaylistForm = (props) => {
                 playlistData.imageVersion = playlistData.imageVersion + 1;
               })
               .catch((error) => {
-                alert("error creating playlist, please try again");
+                alert(error);
               });
           })
           .catch((error) => {
-            alert("error creating playlist, please try again");
+            alert(error);
           });
       }
 
@@ -149,12 +149,12 @@ const PlaylistForm = (props) => {
           await props.firebase
             .firestoreAddUserPlaylistID(props.userID, playlistID)
             .catch((error) => {
-              alert("error creating playlist, please try again");
+              alert(error);
             });
           if (playlistImageFile) {
             await props.AWS.uploadPlaylistImage(playlistImageFile, playlistID).catch(
               (error) => {
-                alert("error creating playlist, please try again");
+                alert(error);
               }
             );
           }
@@ -180,7 +180,7 @@ const PlaylistForm = (props) => {
         props.createdPlaylistIDs[props.currentPlaylistIndex]
       )
       .catch((error) => {
-        alert("error deleting playlist, please try again");
+        alert(error);
       });
 
     let updatedPlaylistIDs = [];
@@ -197,7 +197,7 @@ const PlaylistForm = (props) => {
         playlistIDs: updatedPlaylistIDs,
       })
       .catch((error) => {
-        alert("error deleting playlist, please try again");
+        alert(error);
       });
 
     props.setCurrentPlaylistIndex(null);

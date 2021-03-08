@@ -107,18 +107,18 @@ const ArtistForm = (props) => {
                 setArtistData(newArtistData);
               })
               .catch((error) => {
-                alert("error editing artist, please try again");
+                alert(error);
               });
           })
           .catch((error) => {
-            alert("error editing artist, please try again");
+            alert(error);
           });
       }
 
       await props.firebase
         .firestoreSet("artists", artistID, artistData)
         .catch((error) => {
-          alert("error editing artist, please try again");
+          alert(error);
         });
 
       let updatedArtistData = props.userArtistData;
@@ -132,11 +132,11 @@ const ArtistForm = (props) => {
           await props.firebase
             .firestoreAddUserArtistID(props.userID, artistID)
             .catch((error) => {
-              alert("error creating artist, please try again");
+              alert(error);
             });
           await props.AWS.uploadArtistImage(artistImageFile, artistID).catch(
             (error) => {
-              alert("error creating artist, please try again");
+              alert(error);
             }
           );
           await props.setUserData({
@@ -149,7 +149,7 @@ const ArtistForm = (props) => {
           props.setUserData(updatedUserData);
         })
         .catch((error) => {
-          alert("error creating artist, please try again");
+          alert(error);
         });
     }
 
@@ -169,30 +169,30 @@ const ArtistForm = (props) => {
             projectData = [...projectData, data];
           })
           .catch((error) => {
-            alert("error deleting artist, please try again");
+            alert(error);
           });
         await props.firebase.firestoreDelete("projects", projectID).catch((error) => {
-          alert("error deleting artist, please try again");
+          alert(error);
         });
         await props.AWS.deleteProjectCover(
           props.userArtistIDs[props.currentArtistIndex],
           projectID
         ).catch((error) => {
-          alert("error deleting artist, please try again");
+          alert(error);
         });
         await projectData.map((project, index) => {
           project.songIDs.map(async (songID) => {
             await props.firebase
               .firestoreDelete("songs", songID)
               .catch((error) => {
-                alert("error deleting artist, please try again");
+                alert(error);
               });
             await props.AWS.deleteProjectSong(
               props.userArtistIDs[props.currentArtistIndex],
               projectID,
               songID
             ).catch((error) => {
-              alert("error deleting artist, please try again");
+              alert(error);
             });
           });
           return null
@@ -205,7 +205,7 @@ const ArtistForm = (props) => {
     await props.firebase
       .firestoreDelete("artists", props.userArtistIDs[props.currentArtistIndex])
       .catch((error) => {
-        alert("error deleting artist, please try again");
+        alert(error);
       });
 
     let updatedArtistIDs = [];
@@ -223,7 +223,7 @@ const ArtistForm = (props) => {
         artistIDs: updatedArtistIDs,
       })
       .catch((error) => {
-        alert("error deleting artist, please try again");
+        alert(error);
       });
 
     props.setCurrentArtistIndex(null);

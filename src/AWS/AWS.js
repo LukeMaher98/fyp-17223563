@@ -2,8 +2,8 @@ import aws_sdk from "aws-sdk";
 import { setUploadProgress } from "../actions/ArtistManagementActions";
 
 const config = {
-  accessKeyId: null,
-  secretAccessKey: null,
+  accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
   apiVersion: "2006-03-01",
 };
 

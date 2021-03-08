@@ -361,7 +361,7 @@ const ProjectForm = (props) => {
       if (projectCoverFile) {
         await props.AWS.deleteProjectCover(url)
           .catch((error) => {
-            alert("error creating project, please try again");
+            alert(error);
           })
           .then(async () => {
             await props.AWS.uploadProjectCover(
@@ -375,11 +375,11 @@ const ProjectForm = (props) => {
                 setProjectData(newProjectData);
               })
               .catch((error) => {
-                alert("error creating project, please try again");
+                alert(error);
               });
           })
           .catch((error) => {
-            alert("error creating project, please try again");
+            alert(error);
           });
       }
 
@@ -424,7 +424,7 @@ const ProjectForm = (props) => {
               await props.firebase
                 .firestoreAddProjectSongID(projectID, songID)
                 .catch((error) => {
-                  alert("error creating project, please try again");
+                  alert(error);
                 });
               await props.AWS.uploadProjectSong(
                 filesToUpload[index],
@@ -442,11 +442,11 @@ const ProjectForm = (props) => {
                   }
                 })
                 .catch((error) => {
-                  alert("error creating project, please try again");
+                  alert(error);
                 });
             })
             .catch((error) => {
-              alert("error creating project, please try again");
+              alert(error);
             });
         });
       }
@@ -454,7 +454,7 @@ const ProjectForm = (props) => {
       await props.firebase
         .firestoreSet("projects", projectID, projectData)
         .catch((error) => {
-          alert("error creating project, please try again");
+          alert(error);
         });
 
       props.setCurrentProjectIndex(null);
@@ -477,7 +477,7 @@ const ProjectForm = (props) => {
               projectID
             )
             .catch((error) => {
-              alert("error creating project, please try again");
+              alert(error);
             });
 
           await props.firebase
@@ -495,7 +495,7 @@ const ProjectForm = (props) => {
                       genre
                     )
                     .catch((error) => {
-                      alert("error creating project, please try again");
+                      alert(error);
                     });
                 }
                 if (!data.debutDate) {
@@ -505,13 +505,13 @@ const ProjectForm = (props) => {
                       projectReleaseDate
                     )
                     .catch((error) => {
-                      alert("error creating project, please try again");
+                      alert(error);
                     });
                 }
               });
             })
             .catch((error) => {
-              alert("error creating project, please try again");
+              alert(error);
             });
 
           await props.AWS.uploadProjectCover(
@@ -519,7 +519,7 @@ const ProjectForm = (props) => {
             props.userArtistIDs[props.currentArtistIndex],
             projectID
           ).catch((error) => {
-            alert("error creating project, please try again");
+            alert(error);
           });
 
           if (songsToUpload > 0) {
@@ -538,7 +538,7 @@ const ProjectForm = (props) => {
                   await props.firebase
                     .firestoreAddProjectSongID(projectID, songID)
                     .catch((error) => {
-                      alert("error creating project, please try again");
+                      alert(error);
                     });
                   await props.AWS.uploadProjectSong(
                     projectSongFiles[index],
@@ -556,11 +556,11 @@ const ProjectForm = (props) => {
                       }
                     })
                     .catch((error) => {
-                      alert("error creating project, please try again");
+                      alert(error);
                     });
                 })
                 .catch((error) => {
-                  alert("error creating project, please try again");
+                  alert(error);
                 });
             });
           }
