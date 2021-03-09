@@ -40,6 +40,7 @@ import { artistFormTheme } from "../../constants/themes";
 import "./custom.scss";
 import SongItem from "../ItemComponents/SongItem";
 import * as scrollStyles from "../../constants/styling";
+import { purple } from "@material-ui/core/colors";
 
 let playerScrollInterval = null;
 
@@ -206,17 +207,17 @@ const MainNavigation = (props) => {
     }
   };
 
-  const playButton = () => {
-    if (props.currentSongIndex === null && props.playlistSongIDs.length > 0) {
-      props.setCurrentSongIndex(0);
-    }
-  };
-
   const skipButton = (direction) => {
     if (props.playlistSongIDs.length > 0) {
       if (props.currentSongIndex === null) {
         props.setCurrentSongIndex(0);
-      } else if (props.currentSongIndex < props.playlistSongIDs.length - 1) {
+      } else if (
+        (props.currentSongIndex < props.playlistSongIDs.length - 1 &&
+          props.currentSongIndex > 0) ||
+        (props.currentSongIndex === props.playlistSongIDs.length - 1 &&
+          direction < 0) ||
+        (props.currentSongIndex === 0 && direction > 0)
+      ) {
         props.setCurrentSongIndex(null);
         props.setCurrentInterval(0);
         setScrollReset(true);
@@ -421,6 +422,7 @@ const MainNavigation = (props) => {
         PaperProps={{ style: { backgroundColor: "rgb(0,0,0,0)" } }}
       >
         <Paper
+          elevation={3}
           onMouseEnter={() => {
             setPlayerHovered(true);
             if (props.displaySongData.length > 0) {
@@ -436,6 +438,33 @@ const MainNavigation = (props) => {
             borderRadius: "0px",
           }}
         >
+          <Paper
+            elevation={0}
+            onMouseEnter={() => setHoveredButton(0)}
+            onMouseLeave={() => setHoveredButton(null)}
+            style={{
+              position: "absolute",
+              height: "1vh",
+              width: "2.5vw",
+              bottom: "10vh",
+              left: "0px",
+              borderRadius: "0px",
+              backgroundColor: hoveredButton === 0 ? "purple" : "indigo",
+              cursor: "pointer",
+            }}
+          />
+          <Paper
+            elevation={0}
+            style={{
+              position: "absolute",
+              height: "10vh",
+              width: "2.5vw",
+              bottom: "0px",
+              left: "0px",
+              borderRadius: "0px",
+              backgroundImage: "linear-gradient(to bottom, indigo, purple)",
+            }}
+          />
           <Grid
             container
             direction="column"
@@ -446,6 +475,187 @@ const MainNavigation = (props) => {
               width: "100%",
             }}
           >
+            {(props.playerOpen || playerHovered) && (
+              <Grid
+                item
+                style={{
+                  height: "10vw",
+                  width: "100vw",
+                }}
+              >
+                <Paper
+                  style={{
+                    width: "100%",
+                    height: "100%",
+
+                    borderRadius: "0px",
+                    backgroundColor: "indigo",
+                  }}
+                >
+                  <Grid
+                    container
+                    style={{
+                      height: "100%",
+                      width: "100vw",
+                      overflowX: "hidden",
+                    }}
+                  >
+                    <Grid
+                      item
+                      style={{
+                        height: "100%",
+                        width: "2.5vw",
+                      }}
+                    >
+                      <Paper
+                        elevation={3}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          borderRadius: "0px",
+                          backgroundColor:
+                            hoveredButton === 0 ? "purple" : "indigo",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handlePlayerScrollButton(true)}
+                        onMouseDown={() => {
+                          playerScrollInterval = setInterval(
+                            () => handlePlayerScrollButton(true),
+                            50
+                          );
+                        }}
+                        onMouseUp={() => clearInterval(playerScrollInterval)}
+                        onMouseEnter={() => setHoveredButton(0)}
+                        onMouseLeave={() => setHoveredButton(null)}
+                      >
+                        <Grid
+                          container
+                          style={{ height: "100%", width: "100%" }}
+                          alignItems="center"
+                          justify="center"
+                        >
+                          <Grid item>
+                            <ChevronLeft
+                              fontSize="large"
+                              style={{
+                                color:
+                                  hoveredButton === 0 ? "indigo" : "purple",
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                    <Grid
+                      item
+                      style={{
+                        height: "100%",
+                        width: "95vw",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <Grid
+                        container
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          overflow: "auto",
+                          overflowX: "hidden",
+                          backgroundImage:
+                            "linear-gradient(to right, blueviolet, mediumvioletred)",
+                        }}
+                        ref={playerRef}
+                        wrap="nowrap"
+                      >
+                        {props.displaySongData.map((data, index) => {
+                          return (
+                            <Grid
+                              id={
+                                index === props.currentSongIndex
+                                  ? "scroll"
+                                  : null
+                              }
+                              style={{
+                                opacity:
+                                  index === props.currentSongIndex ||
+                                  index === hoveredPlayerSong
+                                    ? 1
+                                    : 0.5,
+                              }}
+                              item
+                            >
+                              <SongItem
+                                songData={data}
+                                index={index}
+                                hovered={hoveredPlayerSong}
+                                songID={props.playlistSongIDs[index]}
+                                setHovered={setHoveredPlayerSong}
+                                itemFunction={() => {
+                                  props.setCurrentProjectID(null);
+                                  props.setCurrentProjectData(null);
+                                  props.setCurrentProjectArtistID(null);
+                                  pushHistory(
+                                    routes.PROJECT,
+                                    `?aid=${data.artistID}&pid=${data.projectID}`
+                                  );
+                                }}
+                                secondaryFunction={() => handlePlaySong(index)}
+                              />
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      item
+                      style={{
+                        height: "100%",
+                        width: "2.5vw",
+                      }}
+                    >
+                      <Paper
+                        elevation={3}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          borderRadius: "0px",
+                          backgroundColor:
+                            hoveredButton === 1 ? "purple" : "indigo",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handlePlayerScrollButton(false)}
+                        onMouseDown={() => {
+                          playerScrollInterval = setInterval(
+                            () => handlePlayerScrollButton(false),
+                            50
+                          );
+                        }}
+                        onMouseUp={() => clearInterval(playerScrollInterval)}
+                        onMouseEnter={() => setHoveredButton(1)}
+                        onMouseLeave={() => setHoveredButton(null)}
+                      >
+                        <Grid
+                          container
+                          style={{ height: "100%", width: "100%" }}
+                          alignItems="center"
+                          justify="center"
+                        >
+                          <Grid item>
+                            <ChevronRight
+                              fontSize="large"
+                              style={{
+                                color:
+                                  hoveredButton === 1 ? "indigo" : "purple",
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
+            )}
             <Grid
               item
               style={{
@@ -620,173 +830,6 @@ const MainNavigation = (props) => {
                 )}
               </Grid>
             </Grid>
-            {(props.playerOpen || playerHovered) && (
-              <Grid
-                item
-                style={{
-                  height: "10vw",
-                  width: "100vw",
-                }}
-              >
-                <Grid
-                  container
-                  style={{
-                    height: "100%",
-                    width: "100vw",
-                    overflowX: "hidden",
-                  }}
-                >
-                  <Grid
-                    item
-                    style={{
-                      height: "100%",
-                      width: "2.5vw",
-                    }}
-                  >
-                    <Paper
-                      elevation={3}
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "0px",
-                        backgroundColor:
-                          hoveredButton === 0 ? "indigo" : "purple",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handlePlayerScrollButton(true)}
-                      onMouseDown={() => {
-                        playerScrollInterval = setInterval(
-                          () => handlePlayerScrollButton(true),
-                          50
-                        );
-                      }}
-                      onMouseUp={() => clearInterval(playerScrollInterval)}
-                      onMouseEnter={() => setHoveredButton(0)}
-                      onMouseLeave={() => setHoveredButton(null)}
-                    >
-                      <Grid
-                        container
-                        style={{ height: "100%", width: "100%" }}
-                        alignItems="center"
-                        justify="center"
-                      >
-                        <Grid item>
-                          <ChevronLeft
-                            fontSize="large"
-                            style={{
-                              color: hoveredButton === 0 ? "purple" : "indigo",
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  </Grid>
-                  <Grid
-                    item
-                    style={{
-                      height: "100%",
-                      width: "95vw",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <Grid
-                      container
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        overflow: "auto",
-                        overflowX: "hidden",
-                        backgroundImage:
-                          "linear-gradient(to right, blueviolet, mediumvioletred)",
-                      }}
-                      ref={playerRef}
-                      wrap="nowrap"
-                    >
-                      {props.displaySongData.map((data, index) => {
-                        return (
-                          <Grid
-                            id={
-                              index === props.currentSongIndex ? "scroll" : null
-                            }
-                            style={{
-                              opacity:
-                                index === props.currentSongIndex ||
-                                index === hoveredPlayerSong
-                                  ? 1
-                                  : 0.5,
-                            }}
-                            item
-                          >
-                            <SongItem
-                              songData={data}
-                              index={index}
-                              hovered={hoveredPlayerSong}
-                              songID={props.playlistSongIDs[index]}
-                              setHovered={setHoveredPlayerSong}
-                              itemFunction={() => {
-                                props.setCurrentProjectID(null);
-                                props.setCurrentProjectData(null);
-                                props.setCurrentProjectArtistID(null);
-                                pushHistory(
-                                  routes.PROJECT,
-                                  `?aid=${data.artistID}&pid=${data.projectID}`
-                                );
-                              }}
-                              secondaryFunction={() => handlePlaySong(index)}
-                            />
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    style={{
-                      height: "100%",
-                      width: "2.5vw",
-                    }}
-                  >
-                    <Paper
-                      elevation={3}
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "0px",
-                        backgroundColor:
-                          hoveredButton === 1 ? "indigo" : "purple",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handlePlayerScrollButton(false)}
-                      onMouseDown={() => {
-                        playerScrollInterval = setInterval(
-                          () => handlePlayerScrollButton(false),
-                          50
-                        );
-                      }}
-                      onMouseUp={() => clearInterval(playerScrollInterval)}
-                      onMouseEnter={() => setHoveredButton(1)}
-                      onMouseLeave={() => setHoveredButton(null)}
-                    >
-                      <Grid
-                        container
-                        style={{ height: "100%", width: "100%" }}
-                        alignItems="center"
-                        justify="center"
-                      >
-                        <Grid item>
-                          <ChevronRight
-                            fontSize="large"
-                            style={{
-                              color: hoveredButton === 1 ? "purple" : "indigo",
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  </Grid>
-                </Grid>
-              </Grid>
-            )}
           </Grid>
         </Paper>
       </Drawer>
