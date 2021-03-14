@@ -13,7 +13,7 @@ import {
 import * as routes from "../../constants/routes";
 import { withFirebase } from "../../firebase/context";
 import { compose } from "recompose";
-import { replaceHistory, pushHistory } from "../../constants/utils";
+import { replaceHistory, pushHistory, compare } from "../../constants/utils";
 import TextIconButton from "../MiscComponents/TextIconButton";
 import ProjectDisplaySongListing from "../ProjectDisplayComponents/ProjectDisplaySongListing";
 import NumericLabel from "react-pretty-numbers";
@@ -45,6 +45,9 @@ const ProjectDisplayBase = (props) => {
         .firestoreGetDoc("projects", projectID)
         .then((doc) => {
           let data = doc.data();
+          if (!data) {
+            replaceHistory(routes.HOME);
+          }
           props.setCurrentProjectData(data);
           setProjectData(data);
           const state = `${window.location.protocol}//${window.location.host}${routes.PROJECT}/${data.artist}/${data.title}`;
@@ -75,8 +78,8 @@ const ProjectDisplayBase = (props) => {
       props.setCurrentProjectArtistID(artistID);
       props.setCurrentProjectData(null);
       props.setCurrentProjectArtistData(null);
-      props.setProjectSongData(null);
-      props.setProjectSongIDs(null);
+      props.setCurrentProjectSongData(null);
+      props.setCurrentProjectSongIDs(null);
       setProjectSongData(null);
       setProjectData(null);
       getProjectFromHref(projectID, artistID);
@@ -102,6 +105,9 @@ const ProjectDisplayBase = (props) => {
           let data = doc.data();
           projectSongs = [...projectSongs, data];
           if (props.currentProjectSongIDs.length === projectSongs.length) {
+            projectSongs = projectSongs.sort((a, b) =>
+              compare(b, a, "trackListing")
+            );
             props.setCurrentProjectSongData(projectSongs);
             setProjectSongData(projectSongs);
           }
@@ -120,13 +126,15 @@ const ProjectDisplayBase = (props) => {
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
       props.createdPlaylistIDs.map(async (playlistID) => {
-        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
-          let data = doc.data();
-          playlistData = [...playlistData, data];
-          if (playlistData.length === props.createdPlaylistIDs.length) {
-            props.setCreatedPlaylistData(playlistData);
-          }
-        });
+        await props.firebase
+          .firestoreGetDoc("playlists", playlistID)
+          .then((doc) => {
+            let data = doc.data();
+            playlistData = [...playlistData, data];
+            if (playlistData.length === props.createdPlaylistIDs.length) {
+              props.setCreatedPlaylistData(playlistData);
+            }
+          });
       });
     }
   });
@@ -490,7 +498,9 @@ const ProjectDisplayBase = (props) => {
                               elevation={3}
                               onClick={() => {
                                 props.setCurrentGenre(genre);
-                                pushHistory(`${routes.GENRE}/${genre.toLocaleLowerCase()}`);
+                                pushHistory(
+                                  `${routes.GENRE}/${genre.toLocaleLowerCase()}`
+                                );
                               }}
                               onMouseLeave={() => setHoveredGenre(null)}
                               onMouseEnter={() => setHoveredGenre(index)}

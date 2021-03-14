@@ -71,7 +71,7 @@ const ProjectPanel = (props) => {
             active={summaryHovered || props.expanded}
             setHovered={setButtonHovered}
             artist={props.artistData.name}
-            artistID={props.userArtistIDs[props.index]}
+            artistID={props.userArtistIDs && props.userArtistIDs[props.index]}
           />
         </AccordionSummary>
       </Tooltip>

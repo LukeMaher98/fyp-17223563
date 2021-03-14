@@ -19,6 +19,16 @@ function ArtistManagementBase(props) {
   const [hoveredAlbum, setHoveredAlbum] = useState(null);
 
   useEffect(() => {
+    if (props.currentProjectIndex === null) {
+      props.setProjectSongIDs(null);
+      props.setArtistProjectIDs(null);
+      if (props.currentArtistIndex === null) {
+        props.setUserArtistIDs(null);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (props.userData && props.userArtistIDs !== props.userData.artistIDs) {
       props.setUserArtistIDs(props.userData.artistIDs);
       props.setUserArtistData(null);
@@ -27,13 +37,15 @@ function ArtistManagementBase(props) {
     if (!props.userArtistData && props.userArtistIDs) {
       let artistData = [];
       props.userArtistIDs.map(async (artistID) => {
-        await props.firebase.firestoreGetDoc("artists", artistID).then((doc) => {
-          let data = doc.data();
-          artistData = [...artistData, data];
-          if (artistData.length === props.userArtistIDs.length) {
-            props.setUserArtistData(artistData);
-          }
-        });
+        await props.firebase
+          .firestoreGetDoc("artists", artistID)
+          .then((doc) => {
+            let data = doc.data();
+            artistData = [...artistData, data];
+            if (artistData.length === props.userArtistIDs.length) {
+              props.setUserArtistData(artistData);
+            }
+          });
       });
       props.setArtistProjectIDs(null);
     }
@@ -53,13 +65,15 @@ function ArtistManagementBase(props) {
     if (!props.artistProjectData && props.artistProjectIDs) {
       let projectData = [];
       props.artistProjectIDs.map(async (projectID) => {
-        await props.firebase.firestoreGetDoc("projects", projectID).then((doc) => {
-          let data = doc.data();
-          projectData = [...projectData, data];
-          if (projectData.length === props.artistProjectIDs.length) {
-            props.setArtistProjectData(projectData);
-          }
-        });
+        await props.firebase
+          .firestoreGetDoc("projects", projectID)
+          .then((doc) => {
+            let data = doc.data();
+            projectData = [...projectData, data];
+            if (projectData.length === props.artistProjectIDs.length) {
+              props.setArtistProjectData(projectData);
+            }
+          });
       });
       props.setProjectSongIDs(null);
     }

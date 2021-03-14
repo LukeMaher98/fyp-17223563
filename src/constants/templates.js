@@ -61,6 +61,7 @@ export const newProjectData = () => {
     likeCount: 0,
     bookmarkCount: 0,
     imageVersion: 0,
+    previousTracks: 0
   };
 };
 
@@ -77,5 +78,6 @@ export const newSongData = () => {
     playCount: 0,
     likeCount: 0,
     saveCount: 0,
+    trackListing: 0
   };
 };

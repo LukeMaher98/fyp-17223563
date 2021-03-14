@@ -418,6 +418,7 @@ const ProjectForm = (props) => {
             .firestoreAdd("songs", {
               ...songData,
               projectID: projectID,
+              trackListing: projectData.previousTracks + index,
             })
             .then(async (doc) => {
               let songID = doc.id;
@@ -452,7 +453,10 @@ const ProjectForm = (props) => {
       }
 
       await props.firebase
-        .firestoreSet("projects", projectID, projectData)
+        .firestoreSet("projects", projectID, {
+          ...projectData,
+          previousTracks: projectData.previousTracks + songsToUpload,
+        })
         .catch((error) => {
           alert(error);
         });
@@ -461,7 +465,10 @@ const ProjectForm = (props) => {
       props.setArtistProjectData(null);
     } else {
       await props.firebase
-        .firestoreAdd("projects", projectData)
+        .firestoreAdd("projects", {
+          ...projectData,
+          previousTracks: projectSongData.length,
+        })
         .then(async (doc) => {
           let projectID = doc.id;
 
@@ -532,6 +539,7 @@ const ProjectForm = (props) => {
                 .firestoreAdd("songs", {
                   ...songData,
                   projectID: projectID,
+                  trackListing: index,
                 })
                 .then(async (doc) => {
                   let songID = doc.id;
