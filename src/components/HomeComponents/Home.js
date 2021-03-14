@@ -20,6 +20,15 @@ const HomeBase = (props) => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    props.setFollowedArtistIDs(null);
+    props.setFollowedArtistProjectIDs(null);
+    props.setLikedSongIDs(null);
+    props.setBookmarkedProjectIDs(null);
+    props.setSavedPlaylistIDs(null);
+    props.setCurrentPlaylistIndex(null);
+  }, [])
+
+  useEffect(() => {
     if (
       props.userData &&
       props.followedArtistIDs !== props.userData.followedArtistIDs
@@ -126,8 +135,8 @@ const HomeBase = (props) => {
             let sortedIDs = [];
             let sortedData = [];
             sortedCouples.map((couple) => {
-              sortedIDs = [couple.id, ...sortedIDs];
-              sortedData = [couple.data, ...sortedData];
+              sortedIDs = [ ...sortedIDs, couple.id, ];
+              sortedData = [...sortedData, couple.data, ];
               return null;
             });
             props.setFollowedArtistProjectData(sortedData);

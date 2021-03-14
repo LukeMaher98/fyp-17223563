@@ -295,11 +295,8 @@ const ArtistDisplayBase = (props) => {
             alert("An error occured");
           });
 
-        let updatedTopTrackData = artistTopTrackData;
-        updatedTopTrackData[index] = song;
-        props.setCurrentArtistTrackData(updatedTopTrackData);
         props.setCurrentArtistData(artist);
-        props.setUserData(user);
+        props.setCurrentArtistTrackIDs(null);
       });
   };
 
