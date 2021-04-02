@@ -241,8 +241,7 @@ const ProjectDisplaySongListingBase = (props) => {
               <Grid
                 item
                 style={{
-                  overflow: "auto",
-                  width: "10vw",
+                  width: "15vw",
                   marginLeft: "1.25vw",
                   height: "5vh",
                 }}
@@ -273,8 +272,7 @@ const ProjectDisplaySongListingBase = (props) => {
                     style={{
                       width: "100%",
                       height: "100%",
-                      overflow: "auto",
-                      paddingRight: "1.25vw",
+                      overflow: "hidden",
                     }}
                   >
                     <Grid
@@ -298,10 +296,10 @@ const ProjectDisplaySongListingBase = (props) => {
                     <Grid
                       item
                       xs
+                      className={styles.scrollbars}
                       style={{
                         overflow: "auto",
                       }}
-                      className={styles.scrollbars}
                     >
                       <Typography
                         variant="subtitle1"

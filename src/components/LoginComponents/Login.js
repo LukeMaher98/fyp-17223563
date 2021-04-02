@@ -89,7 +89,7 @@ const LoginFormBase = (props) => {
       signupPassword.match(/[a-z]/) &&
       signupPassword.match(/[A-Z]/) &&
       signupPassword.match(/[0-9]/) &&
-      props.password.match(/[^a-zA-Z0-9]/)
+      signupPassword.match(/[^a-zA-Z0-9]/)
     );
   };
 

@@ -10,6 +10,7 @@ import {
   TextField,
   Tooltip,
   ThemeProvider,
+  IconButton,
 } from "@material-ui/core";
 import {
   Home,
@@ -40,7 +41,6 @@ import { artistFormTheme } from "../../constants/themes";
 import "./custom.scss";
 import SongItem from "../ItemComponents/SongItem";
 import * as scrollStyles from "../../constants/styling";
-import { purple } from "@material-ui/core/colors";
 
 let playerScrollInterval = null;
 
@@ -52,6 +52,9 @@ const MainNavigation = (props) => {
   const [hoveredButton, setHoveredButton] = useState(null);
   const [search, setSearch] = useState("");
   const [scrollReset, setScrollReset] = useState(false);
+
+  const [currentSongUrl, setCurrentSongUrl] = useState(null);
+  const [currentSongData, setCurrentSongData] = useState(null);
 
   const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -153,6 +156,32 @@ const MainNavigation = (props) => {
       let scroll = document.getElementById("scroll");
       scroll.scrollIntoView();
       setScrollReset(false);
+    }
+
+    if (
+      props.displaySongData[props.currentSongIndex] &&
+      !(props.displaySongData[props.currentSongIndex] === currentSongData)
+    ) {
+      setCurrentSongData(props.displaySongData[props.currentSongIndex]);
+      props.firebase
+        .firestoreGetDoc(
+          "projects",
+          props.displaySongData[props.currentSongIndex].projectID
+        )
+        .then((doc) => {
+          let data = doc.data();
+          setCurrentSongUrl(
+            `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/projectCovers/${
+              data.artistID
+            }/${
+              data.imageVersion === 0
+                ? props.displaySongData[props.currentSongIndex].projectID
+                : `${props.displaySongData[props.currentSongIndex].projectID}_${
+                    data.imageVersion - 1
+                  }`
+            })`
+          );
+        });
     }
   });
 
@@ -736,17 +765,7 @@ const MainNavigation = (props) => {
                       height: "100%",
                       width: "100%",
                       borderRadius: "0px",
-                      backgroundImage: props.displaySongData[
-                        props.currentSongIndex
-                      ]
-                        ? `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/projectCovers/${
-                            props.displaySongData[props.currentSongIndex]
-                              .artistID
-                          }/${
-                            props.displaySongData[props.currentSongIndex]
-                              .projectID
-                          })`
-                        : null,
+                      backgroundImage: currentSongUrl,
                       backgroundSize: "cover",
                     }}
                   >
@@ -758,12 +777,13 @@ const MainNavigation = (props) => {
                         alignItems="center"
                       >
                         <Grid item>
-                          <Album
-                            fontSize="large"
-                            style={{
-                              color: "purple",
-                            }}
-                          />
+                          <IconButton
+                            disabled={true}
+                            size="small"
+                            style={{ backgroundColor: "rgb(0,0,0,0.5)" }}
+                          >
+                            <Album style={{ color: "white" }} />
+                          </IconButton>
                         </Grid>
                       </Grid>
                     )}

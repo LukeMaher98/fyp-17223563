@@ -19,8 +19,8 @@ const ProjectView = (props) => {
   const url =
     props.artistProjectData[props.currentProjectIndex].imageVersion === 0
       ? props.artistProjectIDs[props.currentProjectIndex]
-      : `${props.userArtistIDs[props.currentArtistIndex]}_${
-          props.userArtistData[props.currentArtistIndex].imageVersion - 1
+      : `${props.artistProjectIDs[props.currentProjectIndex]}_${
+        props.artistProjectData[props.currentProjectIndex].imageVersion - 1
         }`;
 
   const mapData = [
