@@ -160,12 +160,6 @@ const ProjectForm = (props) => {
       setSongData(data);
     }
 
-    if (projectGenres !== songData.genres) {
-      let data = songData;
-      data.genres = projectGenres;
-      setSongData(data);
-    }
-
     if (projectReleaseDate !== songData.debutDate) {
       let data = songData;
       data.debutDate = projectReleaseDate;
@@ -461,6 +455,35 @@ const ProjectForm = (props) => {
           alert(error);
         });
 
+      await props.firebase
+        .firestoreGetDoc("projects", projectID)
+        .then((doc) => {
+          const data = doc.data();
+
+          data.songIDs.map(async (songID, index) => {
+            await props.firebase
+              .firestoreGetDoc("songs", songID)
+              .then(async (songDoc) => {
+                const songData = songDoc.data();
+
+                await props.firebase
+                  .firestoreSet("songs", songID, {
+                    ...songData,
+                    artist: projectData.artist,
+                    debutDate: projectData.debutDate,
+                    genres: projectData.genres,
+                    project: projectData.title,
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              });
+          });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+
       props.setCurrentProjectIndex(null);
       props.setArtistProjectData(null);
     } else {
@@ -505,7 +528,7 @@ const ProjectForm = (props) => {
                       alert(error);
                     });
                 }
-                if (!data.debutDate) {
+                if (!data.debutDate || data.debutDate > projectReleaseDate) {
                   await props.firebase
                     .firestoreAddArtistDebutDate(
                       props.userArtistIDs[props.currentArtistIndex],
@@ -540,6 +563,7 @@ const ProjectForm = (props) => {
                   ...songData,
                   projectID: projectID,
                   trackListing: index,
+                  genres: projectGenres,
                 })
                 .then(async (doc) => {
                   let songID = doc.id;
@@ -579,7 +603,7 @@ const ProjectForm = (props) => {
     props.setProjectForm(null);
   }
 
-  async function deleteProject(data) {
+  async function deleteProject() {
     props.artistProjectData[props.currentProjectIndex].songIDs.map(
       async function (songID) {
         await props.AWS.deleteProjectSong(
@@ -587,9 +611,9 @@ const ProjectForm = (props) => {
           props.artistProjectIDs[props.currentProjectIndex],
           songID
         ).catch((error) => {});
-        await props.firebase
-          .firestoreDelete("songs", songID)
-          .catch((error) => {});
+        await props.firebase.firestoreDelete("songs", songID).catch((error) => {
+          alert(error);
+        });
       }
     );
 
@@ -603,14 +627,16 @@ const ProjectForm = (props) => {
         "projects",
         props.artistProjectIDs[props.currentProjectIndex]
       )
-      .catch((error) => {});
+      .catch((error) => {
+        alert(error);
+      });
 
     let updatedProjectIDs = [];
 
     props.userArtistData[props.currentArtistIndex].projectIDs.map(
       (projectID) => {
         if (projectID !== props.artistProjectIDs[props.currentProjectIndex]) {
-          updatedProjectIDs = [...updatedProjectIDs, projectID];
+          return updatedProjectIDs = [...updatedProjectIDs, projectID];
         }
       }
     );
@@ -620,7 +646,9 @@ const ProjectForm = (props) => {
         ...props.userArtistData[props.currentArtistIndex],
         projectIDs: updatedProjectIDs,
       })
-      .catch((error) => {});
+      .catch((error) => {
+        alert(error);
+      });
 
     props.setCurrentProjectIndex(null);
     props.setUserArtistData(null);
@@ -629,10 +657,10 @@ const ProjectForm = (props) => {
 
   const canAddSongs =
     projectTitle &&
-    projectGenres &&
+    projectGenres.length > 0 &&
     projectReleaseType &&
     projectReleaseDate &&
-    projectCoverLocalUrl;
+    !projectCoverLocalUrl.includes("null");
 
   return (
     <Paper

@@ -187,12 +187,12 @@ const ArtistDisplayBase = (props) => {
       let playlistData = [];
       props.createdPlaylistIDs.map(async (playlistID) => {
         await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
-          let data = doc.data();
-          playlistData = [...playlistData, data];
-          if (playlistData.length === props.createdPlaylistIDs.length) {
-            props.setArtistCreatedPlaylistData(playlistData);
-          }
-        });
+            let data = doc.data();
+            playlistData = [...playlistData, data];
+            if (playlistData.length === props.createdPlaylistIDs.length) {
+              props.setArtistCreatedPlaylistData(playlistData);
+            }
+          });
       });
     }
   });

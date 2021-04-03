@@ -53,7 +53,7 @@ const ArtistForm = (props) => {
       : ""
   );
 
-  let disabled = !artistName || !artistImageLocalUrl;
+  let disabled = !artistName || !artistBiography || artistImageLocalUrl.includes("null");
 
   useEffect(() => {
     if (artistName !== artistData.name) {
