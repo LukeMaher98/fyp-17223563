@@ -766,7 +766,7 @@ const MainNavigation = (props) => {
                       width: "100%",
                       borderRadius: "0px",
                       backgroundImage: currentSongUrl,
-                      backgroundSize: "cover",
+                      backgroundSize: "100% 100%",
                     }}
                   >
                     {!props.displaySongData[props.currentSongIndex] && (

@@ -231,6 +231,7 @@ const ProjectDisplayBase = (props) => {
         alert("An error occured");
       });
 
+    props.setUserData(user);
     props.setCurrentProjectData(project);
     props.setCurrentProjectSongIDs(null);
   };
@@ -258,7 +259,7 @@ const ProjectDisplayBase = (props) => {
                 width: "100%",
                 borderRadius: "0px",
                 backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/projectCovers/${props.currentArtistID}/${url})`,
-                backgroundSize: "cover",
+                backgroundSize: "100% 100%",
               }}
             />
           </Grid>
@@ -807,7 +808,7 @@ const ProjectDisplayBase = (props) => {
                       width: "100%",
                       height: "100%",
                       backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/artistImages/${artistUrl})`,
-                      backgroundSize: "cover",
+                      backgroundSize: "100% 100%",
                     }}
                   />
                 </Grid>

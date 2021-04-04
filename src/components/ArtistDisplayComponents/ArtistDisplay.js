@@ -239,9 +239,9 @@ const ArtistDisplayBase = (props) => {
         alert(error);
       });
 
-      props.setCurrentArtistData(artist);
-      props.setUserData(user);
-      props.setCurrentArtistTrackIDs(null);
+    props.setCurrentArtistData(artist);
+    props.setUserData(user);
+    props.setCurrentArtistTrackIDs(null);
   };
 
   const likeSong = async (index) => {
@@ -298,6 +298,7 @@ const ArtistDisplayBase = (props) => {
             alert("An error occured");
           });
 
+        props.setUserData(user);
         props.setCurrentArtistData(artist);
         props.setCurrentArtistTrackIDs(null);
       });
@@ -328,7 +329,7 @@ const ArtistDisplayBase = (props) => {
                 backgroundImage: props.currentArtistID
                   ? `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/artistImages/${url})`
                   : null,
-                backgroundSize: "cover",
+                backgroundSize: "100% 100%",
               }}
             />
           </Grid>
