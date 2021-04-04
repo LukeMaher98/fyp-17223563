@@ -148,12 +148,14 @@ const ProjectDisplayBase = (props) => {
 
   const bookmarkProject = async () => {
     let user = props.userData;
+    let project = props.currentProjectData;
 
     if (!user.bookmarkedProjectIDs.includes(props.currentProjectID)) {
       user.bookmarkedProjectIDs = [
         ...user.bookmarkedProjectIDs,
         props.currentProjectID,
       ];
+      project.bookmarkCount++;
     } else {
       let bookmarkedProjectIDs = [];
       user.bookmarkedProjectIDs.map((projectID) => {
@@ -162,6 +164,7 @@ const ProjectDisplayBase = (props) => {
         }
       });
       user.bookmarkedProjectIDs = bookmarkedProjectIDs;
+      project.bookmarkCount--;
     }
 
     await props.firebase
@@ -170,7 +173,9 @@ const ProjectDisplayBase = (props) => {
         alert("An error occured");
       });
 
-    props.setCurrentProjectData(null);
+    props.setCurrentProjectData(project);
+    props.setUserData(user);
+    props.setCurrentProjectSongIDs(null);
   };
 
   const likeSong = async (index) => {
@@ -227,7 +232,7 @@ const ProjectDisplayBase = (props) => {
       });
 
     props.setCurrentProjectData(project);
-    props.setCurrentProjectSongData(null);
+    props.setCurrentProjectSongIDs(null);
   };
 
   return (
@@ -855,7 +860,6 @@ const ProjectDisplayBase = (props) => {
                     onClick={bookmarkProject}
                     stretch
                     condition={
-                      props.currentProjectID &&
                       props.userData &&
                       props.userData.bookmarkedProjectIDs.includes(
                         props.currentProjectID

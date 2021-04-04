@@ -44,7 +44,7 @@ const SongItemBase = (props) => {
           width: "10vw",
           borderRadius: "0px",
           backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/projectCovers/${props.songData.artistID}/${url})`,
-          backgroundSize: "cover",
+          backgroundSize: "100% 100%",
           cursor: "pointer",
         }}
       >

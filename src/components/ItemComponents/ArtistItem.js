@@ -30,7 +30,8 @@ const ArtistItem = (props) => {
           height: "10vw",
           borderRadius: "0px",
           backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/artistImages/${url})`,
-          backgroundSize: "cover",
+          backgroundSize: "100% 100%",
+          cursor: "pointer",
         }}
       >
         <Grid

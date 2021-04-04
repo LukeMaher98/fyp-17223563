@@ -186,7 +186,9 @@ const ArtistDisplayBase = (props) => {
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
       props.createdPlaylistIDs.map(async (playlistID) => {
-        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
+        await props.firebase
+          .firestoreGetDoc("playlists", playlistID)
+          .then((doc) => {
             let data = doc.data();
             playlistData = [...playlistData, data];
             if (playlistData.length === props.createdPlaylistIDs.length) {
@@ -228,17 +230,18 @@ const ArtistDisplayBase = (props) => {
     await props.firebase
       .firestoreSet("artists", props.currentArtistID, artist)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
-    props.setCurrentArtistData(artist);
-    props.setUserData(user);
+      props.setCurrentArtistData(artist);
+      props.setUserData(user);
+      props.setCurrentArtistTrackIDs(null);
   };
 
   const likeSong = async (index) => {

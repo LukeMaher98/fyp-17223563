@@ -22,7 +22,6 @@ const PlaylistListingBase = (props) => {
         height: "100%",
         borderRadius: "0px",
         backgroundImage: `linear-gradient(to right, ${props.playlistData.themeLight}, ${props.playlistData.themeDark})`,
-        backgroundSize: "100% 100%"
       }}
     >
       <Grid
@@ -38,7 +37,7 @@ const PlaylistListingBase = (props) => {
               width: "100%",
               borderRadius: "0px",
               backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/playlistImages/${url})`,
-              backgroundSize: "cover",
+              backgroundSize: "100% 100%",
             }}
           />
         </Grid>
