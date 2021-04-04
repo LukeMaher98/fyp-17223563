@@ -170,7 +170,13 @@ const ProjectDisplayBase = (props) => {
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
+      });
+
+    await props.firebase
+      .firestoreSet("projects", props.currentProjectID, project)
+      .catch((error) => {
+        alert(error);
       });
 
     props.setCurrentProjectData(project);
@@ -185,19 +191,14 @@ const ProjectDisplayBase = (props) => {
     let user = props.userData;
 
     if (!user.likedSongIDs.includes(project.songIDs[index])) {
-      song.likeCount += 1;
-      project.likeCount += 1;
-      artist.likeCount += 1;
-
       user.likedSongIDs = [
         props.currentProjectData.songIDs[index],
         ...user.likedSongIDs,
       ];
+      song.likeCount++;
+      project.likeCount++;
+      artist.likeCount++;
     } else {
-      song.likeCount -= 1;
-      project.likeCount -= 1;
-      artist.likeCount -= 1;
-
       let likedSongIDs = [];
       user.likedSongIDs.map((songID) => {
         if (songID !== props.currentProjectData.songIDs[index]) {
@@ -205,30 +206,33 @@ const ProjectDisplayBase = (props) => {
         }
       });
       user.likedSongIDs = likedSongIDs;
+      song.likeCount--;
+      project.likeCount--;
+      artist.likeCount--;
     }
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("artists", props.currentArtistID, artist)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("projects", props.currentProjectID, project)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("songs", project.songIDs[index], song)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.setUserData(user);

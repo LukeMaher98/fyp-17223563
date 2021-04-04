@@ -163,13 +163,15 @@ const PlaylistDisplayBase = (props) => {
     if (!props.createdPlaylistData && props.createdPlaylistIDs) {
       let playlistData = [];
       props.createdPlaylistIDs.map(async (playlistID) => {
-        await props.firebase.firestoreGetDoc("playlists", playlistID).then((doc) => {
-          let data = doc.data();
-          playlistData = [...playlistData, data];
-          if (playlistData.length === props.createdPlaylistIDs.length) {
-            props.setCreatedPlaylistData(playlistData);
-          }
-        });
+        await props.firebase
+          .firestoreGetDoc("playlists", playlistID)
+          .then((doc) => {
+            let data = doc.data();
+            playlistData = [...playlistData, data];
+            if (playlistData.length === props.createdPlaylistIDs.length) {
+              props.setCreatedPlaylistData(playlistData);
+            }
+          });
       });
     }
   });
@@ -203,13 +205,13 @@ const PlaylistDisplayBase = (props) => {
     }
 
     await props.firebase
-      .firestoreSet("playlists", props.currentPlaylistID, playlist)
+      .firestoreSet("users", props.userID, user)
       .catch((error) => {
         alert("An error occured");
       });
 
     await props.firebase
-      .firestoreSet("users", props.userID, user)
+      .firestoreSet("playlists", props.currentPlaylistID, playlist)
       .catch((error) => {
         alert("An error occured");
       });
@@ -571,7 +573,9 @@ const PlaylistDisplayBase = (props) => {
                               elevation={3}
                               onClick={() => {
                                 props.setCurrentGenre(genre);
-                                pushHistory(`${routes.GENRE}/${genre.toLocaleLowerCase()}`);
+                                pushHistory(
+                                  `${routes.GENRE}/${genre.toLocaleLowerCase()}`
+                                );
                               }}
                               onMouseLeave={() => setHoveredGenre(null)}
                               onMouseEnter={() => setHoveredGenre(index)}

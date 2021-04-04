@@ -58,6 +58,7 @@ const LibraryPlaylistListingBase = (props) => {
 
   const removePlaylist = async () => {
     let user = props.userData;
+    let playlist = props.playlistData;
 
     let savedPlaylistIDs = [];
     user.savedPlaylistIDs.map((playlistID) => {
@@ -66,9 +67,16 @@ const LibraryPlaylistListingBase = (props) => {
       }
     });
     user.savedPlaylistIDs = savedPlaylistIDs;
+    playlist.saveCount--;
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
+      .catch((error) => {
+        alert("An error occured");
+      });
+
+    await props.firebase
+      .firestoreSet("playlists", props.playlistID, playlist)
       .catch((error) => {
         alert("An error occured");
       });
