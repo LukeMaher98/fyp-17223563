@@ -216,6 +216,7 @@ const PlaylistDisplayBase = (props) => {
 
     props.setCurrentPlaylistData(playlist);
     props.setUserData(user);
+    props.setPlaylistSongIDs(null);
   };
 
   const likeSong = async (index) => {
@@ -278,9 +279,7 @@ const PlaylistDisplayBase = (props) => {
               });
 
             props.setUserData(user);
-            let updatedSongData = playlistSongData;
-            updatedSongData[index] = song;
-            props.setPlaylistSongData(updatedSongData);
+            props.setPlaylistSongIDs(null);
           });
       });
   };
@@ -308,7 +307,7 @@ const PlaylistDisplayBase = (props) => {
                 width: "100%",
                 borderRadius: "0px",
                 backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/playlistImages/${url})`,
-                backgroundSize: "cover",
+                backgroundSize: "100% 100%",
               }}
             />
           </Grid>

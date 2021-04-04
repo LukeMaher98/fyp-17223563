@@ -121,7 +121,7 @@ const PlaylistSongListingBase = (props) => {
               width: "100%",
               height: "100%",
               backgroundImage: `url(https://debut-image-files.s3-eu-west-1.amazonaws.com/projectCovers/${props.songData.artistID}/${url})`,
-              backgroundSize: "cover",
+              backgroundSize: "100% 100%",
             }}
           />
         </Grid>
