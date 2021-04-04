@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Paper, Typography, Tooltip } from "@material-ui/core";
 import {
   Album,
@@ -17,6 +17,24 @@ import { useStyles } from "../../constants/styling";
 
 const LibraryProjectListingBase = (props) => {
   const styles = useStyles();
+
+  const [projectArtistData, setProjectArtistData] = useState(null);
+
+  useEffect(() => {
+    const getListingData = async () => {
+      await props.firebase
+        .firestoreGetDoc("artists", props.projectData.artistID)
+        .then((doc) => {
+          let data = doc.data();
+          setProjectArtistData(data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    };
+
+    getListingData();
+  }, []);
 
   const url =
     props.projectData.imageVersion === 0
@@ -73,6 +91,8 @@ const LibraryProjectListingBase = (props) => {
 
   const removeProject = async () => {
     let user = props.userData;
+    let artist = projectArtistData;
+    let project = props.projectData;
 
     let bookmarkedProjectIDs = [];
     user.bookmarkedProjectIDs.map((projectID) => {
@@ -81,14 +101,29 @@ const LibraryProjectListingBase = (props) => {
       }
     });
     user.bookmarkedProjectIDs = bookmarkedProjectIDs;
+    artist.bookmarkCount--;
+    project.bookmarkCount--;
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
+      });
+
+    await props.firebase
+      .firestoreSet("artists", props.projectData.artistID, user)
+      .catch((error) => {
+        alert(error);
+      });
+
+    await props.firebase
+      .firestoreSet("projects", props.bookmarkedProjectIDs[props.index], project)
+      .catch((error) => {
+        alert(error);
       });
 
     props.setUserData(user);
+    props.setBookmarkedProjectIDs(null);
   };
 
   return (

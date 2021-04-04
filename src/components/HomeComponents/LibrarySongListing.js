@@ -34,6 +34,9 @@ const LibrarySongListingBase = (props) => {
               ? props.songData.projectID
               : `${props.songData.projectID}_${data.imageVersion - 1}`
           );
+        })
+        .catch((error) => {
+          alert(error);
         });
 
       await props.firebase
@@ -41,6 +44,9 @@ const LibrarySongListingBase = (props) => {
         .then((doc) => {
           let data = doc.data();
           setSongArtistData(data);
+        })
+        .catch((error) => {
+          alert(error);
         });
     };
 
@@ -53,10 +59,6 @@ const LibrarySongListingBase = (props) => {
     let artist = songArtistData;
     let user = props.userData;
 
-    song.likeCount -= 1;
-    project.likeCount -= 1;
-    artist.likeCount -= 1;
-
     let likedSongIDs = [];
     user.likedSongIDs.map((songID) => {
       if (songID !== props.likedSongIDs[props.index]) {
@@ -64,32 +66,36 @@ const LibrarySongListingBase = (props) => {
       }
     });
     user.likedSongIDs = likedSongIDs;
+    song.likeCount--;
+    project.likeCount--;
+    artist.likeCount--;
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
-      .firestoreSet("artists", props.artistID, artist)
+      .firestoreSet("artists", props.songData.artistID, artist)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
-      .firestoreSet("projects", props.projectID, project)
+      .firestoreSet("projects", props.songData.projectID, project)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("songs", props.likedSongIDs[props.index], song)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.setUserData(user);
+    props.setLikedSongIDs(null);
   };
 
   const playSong = () => {

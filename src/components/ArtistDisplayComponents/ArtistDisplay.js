@@ -228,13 +228,13 @@ const ArtistDisplayBase = (props) => {
     }
 
     await props.firebase
-      .firestoreSet("artists", props.currentArtistID, artist)
+      .firestoreSet("users", props.userID, user)
       .catch((error) => {
         alert(error);
       });
 
-    await props.firebase
-      .firestoreSet("users", props.userID, user)
+      await props.firebase
+      .firestoreSet("artists", props.currentArtistID, artist)
       .catch((error) => {
         alert(error);
       });
@@ -255,16 +255,11 @@ const ArtistDisplayBase = (props) => {
         let user = props.userData;
 
         if (!user.likedSongIDs.includes(artistTopTrackIDs[index])) {
-          song.likeCount += 1;
-          project.likeCount += 1;
-          artist.likeCount += 1;
-
           user.likedSongIDs = [artistTopTrackIDs[index], ...user.likedSongIDs];
+          song.likeCount++;
+          project.likeCount++;
+          artist.likeCount++;
         } else {
-          song.likeCount -= 1;
-          project.likeCount -= 1;
-          artist.likeCount -= 1;
-
           let likedSongIDs = [];
           user.likedSongIDs.map((songID) => {
             if (songID !== artistTopTrackIDs[index]) {
@@ -272,6 +267,9 @@ const ArtistDisplayBase = (props) => {
             }
           });
           user.likedSongIDs = likedSongIDs;
+          song.likeCount--;
+          project.likeCount--;
+          artist.likeCount--;
         }
 
         await props.firebase

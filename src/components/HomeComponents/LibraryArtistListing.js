@@ -20,6 +20,7 @@ const LibraryArtistListingBase = (props) => {
 
   const removeArtist = async () => {
     let user = props.userData;
+    let artist = props.artistData
 
     let followedArtistIDs = [];
     user.followedArtistIDs.map((artistID) => {
@@ -28,14 +29,22 @@ const LibraryArtistListingBase = (props) => {
       }
     });
     user.followedArtistIDs = followedArtistIDs;
+    artist.followCount--;
 
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
+      });
+
+      await props.firebase
+      .firestoreSet("projects", props.followedArtistIDs[props.index], artist)
+      .catch((error) => {
+        alert(error);
       });
 
     props.setUserData(user);
+    props.setFollowedArtistIDs(null)
   };
 
   return (
