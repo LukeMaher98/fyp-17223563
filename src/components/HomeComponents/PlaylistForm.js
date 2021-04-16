@@ -11,7 +11,7 @@ import {
 import FormTextfield from "../FormComponents/FormTextfield";
 import FormImage from "../FormComponents/FormImage";
 
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme} from "../../constants/themes";
 
 import { newPlaylistData } from "../../constants/templates";
 import TextIconButton from "../MiscComponents/TextIconButton";
@@ -284,7 +284,7 @@ const PlaylistForm = (props) => {
                     icon={PlaylistPlay}
                     value={playlistName}
                     onChange={setPlaylistName}
-                    theme={artistFormTheme(
+                    theme={formTheme(
                       playlistThemeDark,
                       playlistThemeLight
                     )}
@@ -308,7 +308,7 @@ const PlaylistForm = (props) => {
                     onChange={setPlaylistDesc}
                     multiline
                     rows={8}
-                    theme={artistFormTheme(
+                    theme={formTheme(
                       playlistThemeDark,
                       playlistThemeLight
                     )}

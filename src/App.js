@@ -81,7 +81,7 @@ function AppBase(props) {
 
     const getUserInfo = async () => {
       await props.firebase
-        .firestoreGet1("users", "email", props.currentUser.email)
+        .firestoreLimitedGet("users", ["joinDate", "desc"], "email", props.currentUser.email, 1)
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             let id = doc.id;

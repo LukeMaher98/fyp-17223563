@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import * as _ from "lodash";
 import * as genreActions from "../actions/GenreActions";
 import * as projectDisplayActions from "../actions/ProjectDisplayActions";
-import GenreBrowser from "../components/GenreComponents/GenreBrowser";
+import GenreBrowser from "../components/GenreBrowserComponents/GenreBrowser";
 
 const mapStateToProps = (state, ownProps) => {
   return {

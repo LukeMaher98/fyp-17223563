@@ -207,13 +207,13 @@ const PlaylistDisplayBase = (props) => {
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("playlists", props.currentPlaylistID, playlist)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.setCurrentPlaylistData(playlist);
@@ -259,25 +259,25 @@ const PlaylistDisplayBase = (props) => {
             await props.firebase
               .firestoreSet("users", props.userID, user)
               .catch((error) => {
-                alert("An error occured");
+                alert(error);
               });
 
             await props.firebase
               .firestoreSet("artists", song.artistID, artist)
               .catch((error) => {
-                alert("An error occured");
+                alert(error);
               });
 
             await props.firebase
               .firestoreSet("projects", song.projectID, project)
               .catch((error) => {
-                alert("An error occured");
+                alert(error);
               });
 
             await props.firebase
               .firestoreSet("songs", playlistData.songIDs[index], song)
               .catch((error) => {
-                alert("An error occured");
+                alert(error);
               });
 
             props.setUserData(user);
@@ -1162,7 +1162,7 @@ const PlaylistDisplayBase = (props) => {
                     >
                       <TextIconButton
                         icon={PlayArrow}
-                        text={"play project"}
+                        text={"play playlist"}
                         onClick={() => playPlayist()}
                         stretch
                         tooltip={"Play through this playlist sequentially"}

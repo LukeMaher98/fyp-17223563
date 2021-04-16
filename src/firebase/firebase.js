@@ -22,8 +22,6 @@ class Firebase {
     this.googleProvider = new app.auth.GoogleAuthProvider();
   }
 
-  // *** Firebase API ***
-
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
 
@@ -41,12 +39,6 @@ class Firebase {
 
   doConfirmPasswordReset = (actionCode, password) =>
     this.auth.confirmPasswordReset(actionCode, password);
-
-  firestoreSettings = (settings) => {
-    this.firestore.settings({ ...settings });
-  };
-
-  //***// Collection Setters //***//
 
   firestoreSet = (collection, docId, doc) =>
     this.firestore
@@ -96,22 +88,11 @@ class Firebase {
       .doc(docId)
       .update({ songIDs: app.firestore.FieldValue.arrayUnion(value) });
 
-  //***// Collection Getters //***//
-
-  // Whole Collection
-
   firestoreGetFlat = (collection) =>
     this.firestore.collection(collection).get();
 
-  firestoreGet = (collection, order) =>
-    this.firestore.collection(collection).orderBy(order, "desc").get();
-
-  // Specific doc by ID
-
   firestoreGetDoc = (collection, docID) =>
     this.firestore.collection(collection).doc(docID).get();
-
-  // Genre searches
 
   firestoreGetGenrePopular = (collection, genre, filter, limit) =>
     this.firestore
@@ -126,7 +107,6 @@ class Firebase {
       .collection(collection)
       .where("genres", "array-contains", genre)
       .where("debutDate", ">=", date)
-      .orderBy("debutDate", "desc")
       .orderBy(filter, "desc")
       .limit(limit)
       .get();
@@ -137,23 +117,6 @@ class Firebase {
       .where("genres", "array-contains", genre)
       .orderBy("debutDate", "desc")
       .limit(limit)
-      .get();
-
-  // Search by 1 Parameter
-
-  firestoreGet1 = (collection, param, value) =>
-    this.firestore
-      .collection(collection)
-      .where(param, "==", value)
-      .limit(1)
-      .get();
-
-  firestoreLimitedGet1 = (collection, order, param, value) =>
-    this.firestore
-      .collection(collection)
-      .where(param, "==", value)
-      .orderBy(order[0], order[1])
-      .limit(1)
       .get();
 
   firestoreLimitedGet = (collection, order, param, value, limit) =>

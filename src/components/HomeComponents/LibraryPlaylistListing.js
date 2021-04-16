@@ -72,13 +72,13 @@ const LibraryPlaylistListingBase = (props) => {
     await props.firebase
       .firestoreSet("users", props.userID, user)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     await props.firebase
       .firestoreSet("playlists", props.playlistID, playlist)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.setUserData(user);

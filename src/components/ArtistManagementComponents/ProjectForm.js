@@ -21,8 +21,8 @@ import {
   PlayArrow,
   Save,
 } from "@material-ui/icons";
-import { primaryGenres } from "../../constants/genres";
-import { artistFormTheme } from "../../constants/themes";
+import { genres } from "../../constants/genres";
+import { formTheme } from "../../constants/themes";
 import { releaseOptions } from "../../constants/listOptions";
 import { newProjectData, newSongData } from "../../constants/templates";
 import AudioPlayer from "react-h5-audio-player";
@@ -742,7 +742,7 @@ const ProjectForm = (props) => {
                         value={projectTitle}
                         onChange={setProjectTitle}
                         placeholder={"Title..."}
-                        theme={artistFormTheme(
+                        theme={formTheme(
                           projectThemeDark,
                           projectThemeLight
                         )}
@@ -765,7 +765,7 @@ const ProjectForm = (props) => {
                         onChange={setProjectReleaseDate}
                         themeDark={projectThemeDark}
                         themeLight={projectThemeLight}
-                        theme={artistFormTheme(
+                        theme={formTheme(
                           projectThemeDark,
                           projectThemeLight
                         )}
@@ -792,7 +792,7 @@ const ProjectForm = (props) => {
                         placeholder={"Format..."}
                         themeDark={projectThemeDark}
                         themeLight={projectThemeLight}
-                        theme={artistFormTheme(
+                        theme={formTheme(
                           projectThemeDark,
                           projectThemeLight
                         )}
@@ -829,7 +829,7 @@ const ProjectForm = (props) => {
             >
               <FormMultipleAutocomplete
                 icon={Category}
-                options={primaryGenres}
+                options={genres}
                 value={projectGenres}
                 onChange={setProjectGenres}
                 onDelete={(value) => {
@@ -844,7 +844,7 @@ const ProjectForm = (props) => {
                 canAdd={projectGenres.length < 3}
                 tooltip={"The genre(s) of the material on this project"}
                 placeholder={projectGenres.length > 0 ? "" : "Genres..."}
-                theme={artistFormTheme(projectThemeDark, projectThemeLight)}
+                theme={formTheme(projectThemeDark, projectThemeLight)}
                 themeDark={projectThemeDark}
                 themeLight={projectThemeLight}
                 inputSize={"15vh"}
@@ -1141,7 +1141,7 @@ const ProjectForm = (props) => {
                 value={newSongTitle}
                 onChange={setNewSongTitle}
                 placeholder={"Song..."}
-                theme={artistFormTheme(projectThemeDark, projectThemeLight)}
+                theme={formTheme(projectThemeDark, projectThemeLight)}
                 themeDark={projectThemeDark}
                 themeLight={projectThemeLight}
                 disabled={!canAddSongs}

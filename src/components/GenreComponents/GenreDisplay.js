@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { Radio } from "@material-ui/icons";
 import * as routes from "../../constants/routes";
-import { primaryGenres } from "../../constants/genres";
+import { genres } from "../../constants/genres";
 import { withFirebase } from "../../firebase/context";
 import { compose } from "recompose";
 import { replaceHistory } from "../../constants/utils";
@@ -20,7 +20,7 @@ const GenreDisplayBase = (props) => {
   useEffect(() => {
     if (props.match.params.genre) {
       let check = false;
-      primaryGenres.map((genre) => {
+      genres.map((genre) => {
         if (genre.toLocaleLowerCase() === props.match.params.genre) {
           check = true;
           props.setCurrentGenre(genre);

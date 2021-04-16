@@ -69,7 +69,7 @@ const ProjectDisplaySongListingBase = (props) => {
     await props.firebase
       .firestoreSet("playlists", playlistID, playlistData)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.setCreatedPlaylistData(updatedPlaylistData);

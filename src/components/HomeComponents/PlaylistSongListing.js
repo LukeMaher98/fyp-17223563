@@ -63,7 +63,7 @@ const PlaylistSongListingBase = (props) => {
     await props.firebase
       .firestoreSet("playlists", props.playlistID, playlistData)
       .catch((error) => {
-        alert("An error occured");
+        alert(error);
       });
 
     props.createdPlaylistIDs.map((playlistID, index) => {
