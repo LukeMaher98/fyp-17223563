@@ -76,6 +76,10 @@ function AppBase(props) {
         props.setBookmarkedProjectData(null);
         props.setSavedPlaylistIDs(null);
         props.setSavedPlaylistData(null);
+        props.setPlayerSongIDs([])
+        props.setPlayerSongData([])
+        props.setCurrentInterval(null)
+        props.setCurrentSongIndex(null)
       }
     });
 

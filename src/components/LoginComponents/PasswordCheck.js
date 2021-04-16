@@ -9,36 +9,45 @@ const PasswordCheck = (props) => {
   let highSec = 4;
 
   if (props.password.length < 12) {
-    strength -= (1 - props.password.length / 12) * 0.6;
+    strength -= 1/6;
     message = "A longer password is more secure";
   }
   if (!props.password.match(/[a-z]/)) {
-    strength -= 0.1;
+    strength -= 1/6;
     message = "Password does not contain a lowercase character";
     highSec--;
   }
   if (!props.password.match(/[A-Z]/)) {
-    strength -= 0.1;
+    strength -= 1/6;
     message = "Password does not contain an uppercase character";
     highSec--;
   }
   if (!props.password.match(/[0-9]/)) {
-    strength -= 0.1;
+    strength -= 1/6;
     message = "Password does not contain a number";
     highSec--;
   }
   if (!props.password.match(/[^a-zA-Z0-9]/)) {
-    strength -= 0.1;
+    strength -= 1/6;
     message = "Password does not contain a special character";
     highSec--;
   }
   if (props.password.length < 8) {
-    strength -= (1 - props.password.length / 12) * 0.6;
+    strength -= 1/6;
     message = "Password is of insufficient length";
     valid = false;
   }
 
   const color = valid ? (highSec > 2 ? "darkcyan" : "gold") : "crimson";
+
+  const showMatchWarning =
+    props.password && props.confirm && props.password !== props.confirm;
+
+  const showPasswordStrength =
+    (props.password && !props.confirm) ||
+    (props.password && props.confirm && props.password === props.confirm);
+
+  console.log(strength);
 
   return (
     <Grid
@@ -46,14 +55,14 @@ const PasswordCheck = (props) => {
       alignItems="center"
       style={{ height: "100%", width: "100%" }}
     >
-      {props.password === props.confirm && (
+      {showPasswordStrength && (
         <Grid item style={{ marginRight: "1.25vw" }}>
           <Tooltip title={message} placement="top" arrow>
             <Help fontSize="large" style={{ color: "mediumvioletred" }} />
           </Tooltip>
         </Grid>
       )}
-      {props.password === props.confirm && (
+      {showPasswordStrength && (
         <Grid item xs style={{ height: "50%" }}>
           <Paper
             style={{
@@ -74,11 +83,14 @@ const PasswordCheck = (props) => {
           </Paper>
         </Grid>
       )}
-      {props.password !== props.confirm && (
+      {showMatchWarning && (
         <Grid item>
-            <Typography variant="h6" style={{ color: "crimson", fontWeight: "bold"  }}>
-                Passwords must match
-            </Typography>
+          <Typography
+            variant="h6"
+            style={{ color: "crimson", fontWeight: "bold" }}
+          >
+            Passwords must match
+          </Typography>
         </Grid>
       )}
     </Grid>

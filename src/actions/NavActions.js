@@ -1,12 +1,5 @@
 import NavActionTypes from "../actionTypes/NavActionTypes";
 
-export const setSidebarOpen = (open) => (dispatch) => {
-  dispatch({
-    type: NavActionTypes.SET_SIDEBAR_OPEN,
-    open,
-  });
-};
-
 export const setPlayerOpen = (open) => (dispatch) => {
   dispatch({
     type: NavActionTypes.SET_PLAYER_OPEN,
