@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import * as authActions from "../actions/AuthActions";
 import * as userDataActions from "../actions/UserDataActions";
 import * as homeActions from "../actions/HomeActions";
+import * as navActions from "../actions/NavActions";
 import * as _ from "lodash";
 import App from "../App";
 
@@ -22,13 +23,13 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(_.assign({}, authActions, userDataActions, homeActions), dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    _.assign({}, authActions, userDataActions, homeActions, navActions),
+    dispatch
+  );
 };
 
-const AppContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default AppContainer;

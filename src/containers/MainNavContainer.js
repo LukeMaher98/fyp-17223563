@@ -17,7 +17,6 @@ const mapStateToProps = (state) => {
     history: history,
     userID: state.user.userID,
     userData: state.user.userData,
-    sidebarOpen: state.nav.sidebarOpen,
     playerOpen: state.nav.playerOpen,
     displaySongData: state.nav.displaySongData,
     playlistSongIDs: state.nav.playlistSongIDs,

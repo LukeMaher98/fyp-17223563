@@ -59,7 +59,7 @@ const LoginFormBase = (props) => {
         );
       })
       .catch((error) => {
-        console.error(error);
+        alert(error);
       });
   };
 
@@ -83,16 +83,6 @@ const LoginFormBase = (props) => {
       });
   };
 
-  const testPassword = () => {
-    return (
-      signupPassword.length >= 8 &&
-      signupPassword.match(/[a-z]/) &&
-      signupPassword.match(/[A-Z]/) &&
-      signupPassword.match(/[0-9]/) &&
-      signupPassword.match(/[^a-zA-Z0-9]/)
-    );
-  };
-
   const clearFields = () => {
     setLoginEmail("");
     setLoginPassword("");
@@ -100,6 +90,12 @@ const LoginFormBase = (props) => {
     setSignupPassword("");
     setSignupPasswordConfirm("");
   };
+
+  const canSignUp =
+    signupEmail &&
+    signupPassword &&
+    signupPassword === signupPasswordConfirm &&
+    signupPassword.length >= 8;
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -426,17 +422,10 @@ const LoginFormBase = (props) => {
                         text={"Sign up"}
                         onClick={emailSignUp}
                         stretch
-                        disabled={
-                          !(
-                            signupEmail &&
-                            signupPassword &&
-                            signupPassword === signupPasswordConfirm &&
-                            testPassword()
-                          )
-                        }
+                        disabled={!canSignUp}
                       />
                     </Grid>
-                    {signupPasswordConfirm && signupPassword && (
+                    {signupPassword && (
                       <Grid item style={{ height: "100%", width: "12.5vw" }}>
                         <PasswordCheck
                           password={signupPassword}
