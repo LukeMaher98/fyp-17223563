@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider, TextField, Paper, Tooltip } from "@material-ui/core";
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme } from "../../constants/themes";
 import { useStyles } from "../../constants/styling";
 
 const FormTextfield = (props) => {
@@ -18,7 +18,7 @@ const FormTextfield = (props) => {
       }}
     >
       <ThemeProvider
-        theme={artistFormTheme(props.themeDark, props.themeLight)}
+        theme={formTheme(props.themeDark, props.themeLight)}
         style={{ width: "100%", height: "100%" }}
       >
         <TextField

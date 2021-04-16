@@ -1,4 +1,4 @@
-import { compare, startOfMonth } from "../constants/utils";
+import { startOfMonth } from "../constants/utils";
 
 const getPopularGenreSongs = async (firebase, genre, filter) => {
   let displaySongs = [];
@@ -29,7 +29,6 @@ const getRisingGenreSongs = async (firebase, genre, filter) => {
         }
       });
     });
-  //displayPlaylists = displayPlaylists.sort(comparePlayCount);
   return displaySongs;
 };
 
@@ -84,7 +83,6 @@ const getRisingGenreProjects = async (firebase, genre, filter) => {
         }
       });
     });
-  //displayProjects = displayProjects.sort(compareLikeCount);
   return displayProjects;
 };
 
@@ -138,7 +136,6 @@ const getRisingGenreArtists = async (firebase, genre, filter) => {
         ];
       });
     });
-  //displayArtists = displayArtists.sort(comparePlayCount);
   return displayArtists;
 };
 
@@ -190,7 +187,6 @@ const getRisingGenrePlaylists = async (firebase, genre, filter) => {
         ];
       });
     });
-  //displayPlaylists = displayPlaylists.sort(comparePlayCount);
   return displayPlaylists;
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import * as routes from "../../constants/routes";
-import { primaryGenres } from "../../constants/genres";
+import { genres } from "../../constants/genres";
 import GenrePanel from "./GenrePanel";
 import { withFirebase } from "../../firebase/context";
 import { compose } from "recompose";
@@ -24,7 +24,7 @@ const GenreBrowserBase = (props) => {
 
   const expandAll = () => {
     let expandAll = [];
-    for (let i = 0; i < primaryGenres.length; i++) {
+    for (let i = 0; i < genres.length; i++) {
       expandAll = [...expandAll, i];
     }
     setExpanded(expandAll);
@@ -132,7 +132,7 @@ const GenreBrowserBase = (props) => {
             }}
             wrap="nowrap"
           >
-            {primaryGenres.map((genre, index) => {
+            {genres.map((genre, index) => {
               if (
                 genre
                   .toLocaleLowerCase()

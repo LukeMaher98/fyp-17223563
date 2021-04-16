@@ -8,7 +8,7 @@ import FormTextfield from "../FormComponents/FormTextfield";
 import TextIconButton from "../MiscComponents/TextIconButton";
 import { Lock, LockOutlined, Send } from "@material-ui/icons";
 import { pushHistory } from "../../constants/utils";
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme } from "../../constants/themes";
 import PasswordCheck from "./PasswordCheck";
 
 const ResetPasswordBase = (props) => {
@@ -93,7 +93,7 @@ const ResetPasswordBase = (props) => {
                     icon={LockOutlined}
                     value={newPassword}
                     onChange={setNewPassword}
-                    theme={artistFormTheme("#C71585	", "#8A2BE2")}
+                    theme={formTheme("#C71585	", "#8A2BE2")}
                     themeDark={"#C71585	"}
                     themeLight={"#8A2BE2"}
                     spacing={"2.5vh"}
@@ -114,7 +114,7 @@ const ResetPasswordBase = (props) => {
                     icon={Lock}
                     value={confirmPassword}
                     onChange={setConfirmPassword}
-                    theme={artistFormTheme("#C71585	", "#8A2BE2")}
+                    theme={formTheme("#C71585	", "#8A2BE2")}
                     themeDark={"#C71585	"}
                     themeLight={"#8A2BE2"}
                     spacing={"2.5vh"}

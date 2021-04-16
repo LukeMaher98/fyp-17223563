@@ -5,7 +5,7 @@ import { Clear, Save, Delete, Description, Person } from "@material-ui/icons";
 import FormTextfield from "../FormComponents/FormTextfield";
 import FormImage from "../FormComponents/FormImage";
 
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme } from "../../constants/themes";
 import { newArtistData } from "../../constants/templates";
 import TextIconButton from "../MiscComponents/TextIconButton";
 import { useStyles } from "../../constants/styling";
@@ -318,7 +318,7 @@ const ArtistForm = (props) => {
                     icon={Person}
                     value={artistName}
                     onChange={setArtistName}
-                    theme={artistFormTheme(artistThemeDark, artistThemeLight)}
+                    theme={formTheme(artistThemeDark, artistThemeLight)}
                     themeDark={artistThemeDark}
                     themeLight={artistThemeLight}
                     spacing={"2.5vh"}
@@ -340,7 +340,7 @@ const ArtistForm = (props) => {
                     onChange={setArtistBiography}
                     multiline
                     rows={13}
-                    theme={artistFormTheme(artistThemeDark, artistThemeLight)}
+                    theme={formTheme(artistThemeDark, artistThemeLight)}
                     themeDark={artistThemeDark}
                     themeLight={artistThemeLight}
                     spacing={"2.5vh"}

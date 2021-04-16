@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, TextField, Paper, ThemeProvider, Tooltip } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme } from "../../constants/themes";
 
 export default function SearchBar(props) {
   return (
@@ -17,7 +17,7 @@ export default function SearchBar(props) {
         elevation={3}
       >
         <ThemeProvider
-          theme={artistFormTheme("#C71585", "#8A2BE2")}
+          theme={formTheme("#C71585", "#8A2BE2")}
           style={{ width: "100%", height: "100%" }}
         >
           <TextField

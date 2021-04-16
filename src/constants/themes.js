@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 
-export const artistFormTheme = (underline, hover) =>
+export const formTheme = (underline, hover) =>
   createMuiTheme({
     palette: {
       primary: {

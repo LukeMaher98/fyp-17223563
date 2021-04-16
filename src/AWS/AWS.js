@@ -14,8 +14,6 @@ class AWS {
     this.s3 = new aws_sdk.S3({ ...config });
   }
 
-  // *** AWS API ***
-
   uploadProjectCover = (data, artistID, projectID) =>
     this.s3
       .putObject({

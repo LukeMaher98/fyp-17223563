@@ -37,7 +37,7 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/src/styles.scss";
 import { pushHistory } from "../../constants/utils";
 import SimpleIconButton from "../MiscComponents/SimpleIconButton";
-import { artistFormTheme } from "../../constants/themes";
+import { formTheme } from "../../constants/themes";
 import "./custom.scss";
 import SongItem from "../ItemComponents/SongItem";
 import * as scrollStyles from "../../constants/styling";
@@ -201,7 +201,7 @@ const MainNavigation = (props) => {
             props.setCurrentProjectData(project);
           })
           .catch((error) => {
-            alert("An error occured");
+            alert(error);
           });
       });
 
@@ -217,12 +217,12 @@ const MainNavigation = (props) => {
             props.setCurrentArtistData(artist);
           })
           .catch((error) => {
-            alert("An error occured");
+            alert(error);
           });
       });
 
     await props.firebase.firestoreSet("songs", songID, song).catch((error) => {
-      alert("An error occured");
+      alert(error);
     });
   };
 
@@ -331,7 +331,7 @@ const MainNavigation = (props) => {
               elevation={3}
             >
               <ThemeProvider
-                theme={artistFormTheme("#C71585", "#8A2BE2")}
+                theme={formTheme("#C71585", "#8A2BE2")}
                 style={{ width: "100%", height: "100%" }}
               >
                 <TextField
