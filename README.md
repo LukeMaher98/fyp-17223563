@@ -1,6 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Artist-Friendly Music Streaming Platform
+
+## Luke Maher - UL Student 17223563
+
+Final Year Project - LM121 Computer Games Development 2020/21
+
+Supervised by Nikola Nikolov
+
+Project deployed at: https://www.debut-music.com
+
+Project Git Repository: https://github.com/LukeMaher98/fyp-17223563
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
