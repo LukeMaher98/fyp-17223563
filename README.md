@@ -10,6 +10,14 @@ Project deployed at: https://www.debut-music.com
 
 Project Git Repository: https://github.com/LukeMaher98/fyp-17223563
 
+To run the project locally on a development server:
+  
+  1. Clone the project to your local device.
+
+  2. In the project directory, run `npm install`. This will install the Node.js Package Manager as well as the necessary packages for the project to operate.
+
+  3. In the project directory, run `npm start` to launch the project on a development server within your default browser
+
 ## Available Scripts
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
