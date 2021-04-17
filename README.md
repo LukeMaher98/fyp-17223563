@@ -10,7 +10,7 @@ Project deployed at: https://www.debut-music.com
 
 Project Git Repository: https://github.com/LukeMaher98/fyp-17223563
 
-To run the project locally on a development server (Assessing bodies only):
+To run the project locally on a development server (Assessing bodies provided with env variables only):
   
   1. Extract the project from the submitted .zip archive to your local device.
 
