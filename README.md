@@ -10,9 +10,9 @@ Project deployed at: https://www.debut-music.com
 
 Project Git Repository: https://github.com/LukeMaher98/fyp-17223563
 
-To run the project locally on a development server:
+To run the project locally on a development server (Assessing bodies only):
   
-  1. Clone the project to your local device.
+  1. Extract the project from the submitted .zip archive to your local device.
 
   2. In the project directory, run `npm install`. This will install the Node.js Package Manager as well as the necessary packages for the project to operate.
 
